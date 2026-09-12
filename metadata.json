@@ -1,0 +1,6 @@
+{
+  "name": "TRIPATHI STORE",
+  "description": "Modern local grocery shop e-commerce website with product catalog, smart cart, WhatsApp ordering, search & filters, real-time order tracking, and shop owner dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
