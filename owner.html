@@ -1,0 +1,2067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRIPATHI STORE — Owner Order Database & Delivery Dispatch Portal</title>
+  <meta name="description" content="Shop owner portal to view customer orders with full delivery address, customer name, mobile phone number, map navigation, and dispatch management.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #15803d;
+      --primary-dark: #166534;
+      --primary-light: #dcfce7;
+      --primary-hover: #14532d;
+      --accent: #f97316;
+      --accent-light: #ffedd5;
+      --accent-hover: #ea580c;
+      --bg-base: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-alt: #f1f5f9;
+      --border: #e2e8f0;
+      --border-focus: #15803d;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --status-new: #3b82f6;
+      --status-pack: #f59e0b;
+      --status-out: #ec4899;
+      --status-done: #10b981;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+      --radius: 12px;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-heading: 'Playfair Display', Georgia, serif;
+    }
+
+    [data-theme="dark"] {
+      --bg-base: #090d16;
+      --bg-surface: #111827;
+      --bg-surface-alt: #1f2937;
+      --border: #374151;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --primary-light: rgba(34, 197, 94, 0.15);
+      --accent-light: rgba(249, 115, 22, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* Top Navigation Bar */
+    .owner-header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      flex-wrap: wrap;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(21, 128, 61, 0.25);
+    }
+
+    .brand-text h1 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-text h1 span.portal-tag {
+      font-size: 0.7rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-weight: 700;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .db-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid rgba(21, 128, 61, 0.2);
+    }
+
+    .db-status-pill .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    .btn-accent:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface-alt);
+      color: var(--text-main);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover {
+      background: var(--border);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-main);
+      border-color: var(--border);
+    }
+    .btn-outline:hover {
+      background: var(--bg-surface-alt);
+    }
+
+    /* KPI Metrics Banner */
+    .metrics-section {
+      padding: 1.25rem 0 0.5rem;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .metric-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      transition: transform 0.2s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .metric-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+
+    .metric-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-val {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .metric-lbl {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Filter & Search Bar */
+    .toolbar-section {
+      padding: 0.75rem 0;
+    }
+
+    .toolbar-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .toolbar-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 260px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.55rem 0.85rem 0.55rem 2.2rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-base);
+      color: var(--text-main);
+      font-size: 0.84rem;
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      background: var(--bg-surface);
+    }
+
+    .search-box .search-icon {
+      position: absolute;
+      left: 0.7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.9rem;
+      opacity: 0.5;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+
+    .filter-tab-btn {
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--bg-base);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .filter-tab-btn:hover {
+      background: var(--bg-surface-alt);
+      color: var(--text-main);
+    }
+
+    .filter-tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 6px rgba(21, 128, 61, 0.25);
+    }
+
+    .filter-tab-btn .badge-count {
+      background: rgba(0, 0, 0, 0.15);
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+    }
+    .filter-tab-btn.active .badge-count {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Orders View Container */
+    .orders-section {
+      padding: 0.75rem 0 3rem;
+      flex: 1;
+    }
+
+    .orders-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .orders-header-row h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .view-toggle-grp {
+      display: inline-flex;
+      background: var(--bg-surface-alt);
+      border-radius: 8px;
+      padding: 2px;
+      border: 1px solid var(--border);
+    }
+
+    .view-toggle-btn {
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .view-toggle-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Order Cards Grid */
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.1rem;
+    }
+
+    @media (max-width: 480px) {
+      .orders-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .order-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .order-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(21, 128, 61, 0.4);
+    }
+
+    .order-card.urgent-out {
+      border-color: rgba(236, 72, 153, 0.4);
+    }
+
+    .order-card-header {
+      padding: 0.85rem 1rem;
+      background: var(--bg-surface-alt);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .order-card-id {
+      font-family: monospace;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .order-time-tag {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .order-badges-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-delivery {
+      background: rgba(21, 128, 61, 0.12);
+      color: #15803d;
+      border: 1px solid rgba(21, 128, 61, 0.25);
+    }
+
+    .badge-pickup {
+      background: rgba(14, 165, 233, 0.12);
+      color: #0369a1;
+      border: 1px solid rgba(14, 165, 233, 0.3);
+    }
+
+    .badge-status {
+      border: 1px solid;
+    }
+
+    .order-card-body {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      flex: 1;
+    }
+
+    /* Customer & Address Highlight Box - Crucial for Delivery */
+    .delivery-dest-box {
+      background: var(--bg-base);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .dest-cust-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cust-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .cust-phone-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .phone-btn {
+      padding: 0.25rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: opacity 0.2s;
+    }
+
+    .phone-btn.call {
+      background: #2563eb;
+      color: #ffffff;
+    }
+    .phone-btn.wa {
+      background: #25d366;
+      color: #ffffff;
+    }
+    .phone-btn:hover {
+      opacity: 0.85;
+    }
+
+    .dest-address {
+      font-size: 0.83rem;
+      color: var(--text-main);
+      line-height: 1.45;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+
+    .dest-landmark {
+      font-size: 0.77rem;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      align-self: flex-start;
+    }
+
+    .dest-nav-btn {
+      align-self: flex-start;
+      margin-top: 0.2rem;
+      padding: 0.3rem 0.65rem;
+      background: #0284c7;
+      color: #ffffff;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .dest-nav-btn:hover {
+      background: #0369a1;
+    }
+
+    /* Items summary */
+    .order-items-box {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      background: var(--bg-surface);
+      border-top: 1px dashed var(--border);
+      padding-top: 0.65rem;
+    }
+
+    .order-items-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.3rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .order-items-text {
+      line-height: 1.4;
+      color: var(--text-main);
+      font-size: 0.8rem;
+    }
+
+    /* Bill & Financials row */
+    .order-bill-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 0.65rem;
+      margin-top: auto;
+    }
+
+    .order-amount-pill {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .order-amount-pill .amt {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .order-amount-pill .pmt-mode {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .rider-assigned-box {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    /* Card Footer & Dispatch Controls */
+    .order-card-footer {
+      padding: 0.75rem 1rem;
+      background: var(--bg-surface-alt);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .status-select-wrap select {
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-size: 0.78rem;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .card-action-btns {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .icon-action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .icon-action-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Table View */
+    .orders-table-wrapper {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.83rem;
+    }
+
+    .orders-table th {
+      background: var(--bg-surface-alt);
+      padding: 0.75rem 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 1.5px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .orders-table td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .orders-table tr:hover td {
+      background: rgba(21, 128, 61, 0.02);
+    }
+
+    /* Modal dialogs */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 540px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    .close-modal-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 0.9rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.55rem 0.8rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      background: var(--bg-base);
+      color: var(--text-main);
+      outline: none;
+      font-family: inherit;
+    }
+    .form-control:focus {
+      border-color: var(--primary);
+      background: var(--bg-surface);
+    }
+
+    /* Thermal Print Delivery Slip */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printableSlip, #printableSlip * {
+        visibility: visible;
+      }
+      #printableSlip {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: #fff;
+        color: #000;
+        padding: 10mm;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    .thermal-slip {
+      background: #ffffff;
+      color: #000000;
+      padding: 1.25rem;
+      border: 1px dashed #000000;
+      border-radius: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .thermal-slip-header {
+      text-align: center;
+      border-bottom: 1px dashed #000;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 110;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .toast {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 0.75rem 1.1rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: slideIn 0.3s ease;
+      border-left: 4px solid var(--primary);
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Owner Navigation -->
+  <header class="owner-header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="brand-section">
+          <div class="brand-logo-badge">🏪</div>
+          <div class="brand-text">
+            <h1>
+              TRIPATHI STORE
+              <span class="portal-tag">OWNER DISPATCH & DATABASE</span>
+            </h1>
+            <span class="brand-sub">Real-Time Customer Orders • Address & Navigation • Delivery Dispatch</span>
+          </div>
+        </div>
+
+        <div class="header-controls">
+          <div class="db-status-pill" id="dbStatusBadge">
+            <span class="pulse-dot"></span>
+            <span id="dbStatusText">Database Online (Synced)</span>
+          </div>
+
+          <button class="btn btn-secondary" id="soundToggleBtn" onclick="toggleAudioAlert()" title="Toggle Sound on New Orders">
+            <span id="soundIcon">🔔</span>
+            <span id="soundText">Sound Alert: ON</span>
+          </button>
+
+          <button class="btn btn-secondary" onclick="loadOrdersFromDatabase()" title="Fetch latest updates from orders database">
+            <span>🔄 Sync Now</span>
+          </button>
+
+          <a href="/" class="btn btn-primary" title="Open customer grocery shopping website">
+            <span>🛒 Customer Store</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+
+      <!-- Metrics KPI Section -->
+      <section class="metrics-section">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon-box" style="background:rgba(59,130,246,0.12); color:#2563eb;">📦</div>
+            <div class="metric-info">
+              <span class="metric-val" id="metricTotalOrders">0</span>
+              <span class="metric-lbl">Total Database Orders</span>
+            </div>
+          </div>
+
+          <div class="metric-card" style="border-left: 4px solid #f59e0b;">
+            <div class="metric-icon-box" style="background:rgba(245,158,11,0.12); color:#d97706;">⏳</div>
+            <div class="metric-info">
+              <span class="metric-val" id="metricPendingOrders">0</span>
+              <span class="metric-lbl">Pending Dispatch / Packing</span>
+            </div>
+          </div>
+
+          <div class="metric-card" style="border-left: 4px solid #ec4899;">
+            <div class="metric-icon-box" style="background:rgba(236,72,153,0.12); color:#db2777;">🛵</div>
+            <div class="metric-info">
+              <span class="metric-val" id="metricOutForDelivery">0</span>
+              <span class="metric-lbl">Out for Delivery (On Road)</span>
+            </div>
+          </div>
+
+          <div class="metric-card" style="border-left: 4px solid #0284c7;">
+            <div class="metric-icon-box" style="background:rgba(2,132,199,0.12); color:#0284c7;">🏪</div>
+            <div class="metric-info">
+              <span class="metric-val" id="metricStorePickups">0</span>
+              <span class="metric-lbl">Store Counter Pickups</span>
+            </div>
+          </div>
+
+          <div class="metric-card" style="border-left: 4px solid #10b981;">
+            <div class="metric-icon-box" style="background:rgba(16,185,129,0.12); color:#059669;">💰</div>
+            <div class="metric-info">
+              <span class="metric-val" id="metricTotalSales">₹0</span>
+              <span class="metric-lbl">Total Cash / Sales Value</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Search & Filters Toolbar -->
+      <section class="toolbar-section">
+        <div class="toolbar-card">
+          <div class="toolbar-row-top">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="ownerSearchInput" placeholder="Search by customer name, phone number, address, landmark, or Order ID..." oninput="handleSearchFilter()">
+            </div>
+
+            <div class="toolbar-actions">
+              <select id="sortSelect" class="form-control" style="width:auto; padding:0.45rem 0.75rem; font-weight:700;" onchange="handleSortChange(this.value)">
+                <option value="newest">📅 Newest First</option>
+                <option value="oldest">📅 Oldest First</option>
+                <option value="highest">💰 Highest Amount</option>
+              </select>
+
+              <button class="btn btn-accent" onclick="openManualOrderModal()">
+                <span>➕ New Phone / Walk-in Order</span>
+              </button>
+
+              <button class="btn btn-secondary" onclick="exportOrdersToCSV()" title="Export orders database to spreadsheet">
+                <span>⬇️ Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Category Pills -->
+          <div class="filter-tabs" id="filterTabsList">
+            <button class="filter-tab-btn active" data-filter="all" onclick="setFilter('all')">
+              <span>All Orders</span>
+              <span class="badge-count" id="countAll">0</span>
+            </button>
+            <button class="filter-tab-btn" data-filter="delivery" onclick="setFilter('delivery')">
+              <span>🛵 Home Deliveries</span>
+              <span class="badge-count" id="countDelivery">0</span>
+            </button>
+            <button class="filter-tab-btn" data-filter="pickup" onclick="setFilter('pickup')">
+              <span>🏪 Store Pickups</span>
+              <span class="badge-count" id="countPickup">0</span>
+            </button>
+            <button class="filter-tab-btn" data-filter="pending" onclick="setFilter('pending')">
+              <span>⏳ Needs Dispatch</span>
+              <span class="badge-count" id="countPending">0</span>
+            </button>
+            <button class="filter-tab-btn" data-filter="out" onclick="setFilter('out')">
+              <span>🛵 Out on Delivery</span>
+              <span class="badge-count" id="countOut">0</span>
+            </button>
+            <button class="filter-tab-btn" data-filter="completed" onclick="setFilter('completed')">
+              <span>✅ Delivered / Done</span>
+              <span class="badge-count" id="countCompleted">0</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Orders Feed Section -->
+      <section class="orders-section">
+        <div class="orders-header-row">
+          <h2>
+            <span>📋 Customer Orders Database</span>
+            <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600;" id="visibleOrderCountText">(Showing 0 orders)</span>
+          </h2>
+
+          <div class="view-toggle-grp">
+            <button class="view-toggle-btn active" id="cardViewBtn" onclick="switchView('cards')">
+              <span>🗂️ Cards View</span>
+            </button>
+            <button class="view-toggle-btn" id="tableViewBtn" onclick="switchView('table')">
+              <span>📑 Table View</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cards View Container -->
+        <div class="orders-grid" id="ordersGridContainer">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Table View Container -->
+        <div class="orders-table-wrapper" id="ordersTableWrapper" style="display:none;">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>Order ID & Date</th>
+                <th>Type</th>
+                <th>Customer Name & Phone</th>
+                <th>Delivery Address & Landmark</th>
+                <th>Items Ordered</th>
+                <th>Amount & Payment</th>
+                <th>Delivery Rider</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- =========================================================
+       MODAL: MANUAL ORDER / PHONE ORDER CREATION
+       ========================================================= -->
+  <div class="modal-overlay" id="manualOrderModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="font-size:1.15rem; font-weight:800;">➕ Record Manual / Phone Order</h3>
+        <button class="close-modal-btn" onclick="closeManualOrderModal()">&times;</button>
+      </div>
+      <form id="manualOrderForm" onsubmit="handleManualOrderSubmit(event)">
+        <div class="form-group">
+          <label>Fulfillment Method *</label>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+            <label style="display:flex; align-items:center; gap:0.4rem; padding:0.5rem; background:var(--bg-base); border-radius:8px; border:1px solid var(--border); cursor:pointer;">
+              <input type="radio" name="manualOrderType" value="delivery" checked onchange="toggleManualOrderType('delivery')">
+              <span>🛵 Home Delivery</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:0.4rem; padding:0.5rem; background:var(--bg-base); border-radius:8px; border:1px solid var(--border); cursor:pointer;">
+              <input type="radio" name="manualOrderType" value="pickup" onchange="toggleManualOrderType('pickup')">
+              <span>🏪 Store Pickup</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="manCustName">Customer Full Name *</label>
+          <input type="text" id="manCustName" class="form-control" placeholder="e.g. Ramesh Chandra" required>
+        </div>
+
+        <div class="form-group">
+          <label for="manCustPhone">Customer Mobile Number (WhatsApp) *</label>
+          <input type="tel" id="manCustPhone" class="form-control" placeholder="e.g. 9876543210" pattern="[0-9]{10}" required>
+        </div>
+
+        <div id="manDeliveryFields">
+          <div class="form-group">
+            <label for="manCustAddress">Delivery Address (House/Street/Colony) *</label>
+            <textarea id="manCustAddress" class="form-control" rows="2" placeholder="e.g. Flat 104, Sunrise Apartments, Main Market"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="manCustLandmark">Nearby Landmark</label>
+            <input type="text" id="manCustLandmark" class="form-control" placeholder="e.g. Near Old Shiv Mandir">
+          </div>
+        </div>
+
+        <div id="manPickupFields" style="display:none;">
+          <div class="form-group">
+            <label for="manPickupTime">Pickup Time Slot</label>
+            <input type="text" id="manPickupTime" class="form-control" value="⚡ ASAP - Ready in 15-20 Mins">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="manOrderItems">Items Description (Comma separated or line by line) *</label>
+          <textarea id="manOrderItems" class="form-control" rows="2" placeholder="e.g. Cow Milk 2L, Atta 5kg, Sugar 1kg" required></textarea>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;">
+          <div class="form-group">
+            <label for="manOrderTotal">Total Bill Amount (₹) *</label>
+            <input type="number" id="manOrderTotal" class="form-control" placeholder="e.g. 450" required>
+          </div>
+          <div class="form-group">
+            <label for="manRiderName">Assign Rider (Optional)</label>
+            <input type="text" id="manRiderName" class="form-control" placeholder="e.g. Ramesh (Rider)">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="manNotes">Delivery Notes</label>
+          <input type="text" id="manNotes" class="form-control" placeholder="e.g. Call before coming">
+        </div>
+
+        <div style="display:flex; gap:0.5rem; justify-content:flex-end; margin-top:1rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeManualOrderModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">💾 Save to Database</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: PRINT DELIVERY SLIP / KITCHEN RECEIPT
+       ========================================================= -->
+  <div class="modal-overlay" id="deliverySlipModal">
+    <div class="modal-card" style="max-width:480px;">
+      <div class="modal-header no-print">
+        <h3 style="font-size:1.1rem; font-weight:800;">🖨️ Delivery Slip & Rider Receipt</h3>
+        <button class="close-modal-btn" onclick="closeSlipModal()">&times;</button>
+      </div>
+
+      <div class="thermal-slip" id="printableSlip">
+        <div class="thermal-slip-header">
+          <div style="font-size:1.15rem; font-weight:bold;">TRIPATHI STORE</div>
+          <div style="font-size:0.75rem;">Main Market Road, City Center • 8960025119</div>
+          <div style="margin-top:4px; font-weight:bold; font-size:0.9rem;" id="slipOrderType">*** DELIVERY DISPATCH SLIP ***</div>
+          <div id="slipOrderId" style="font-size:1rem; font-weight:bold; margin-top:2px;">#TS-0000</div>
+          <div id="slipOrderDate" style="font-size:0.75rem;">Date: 2026-09-12 10:00 AM</div>
+        </div>
+
+        <div style="margin:8px 0; border-bottom:1px dashed #000; padding-bottom:6px;">
+          <div><strong>CUSTOMER:</strong> <span id="slipCustomer">Rajesh Kumar</span></div>
+          <div><strong>PHONE:</strong> <span id="slipPhone">9876543210</span></div>
+          <div style="margin-top:4px;"><strong>ADDRESS:</strong></div>
+          <div id="slipAddress" style="font-size:0.85rem; padding-left:6px;">House 12, Main Street</div>
+          <div id="slipLandmark" style="font-size:0.8rem; padding-left:6px; font-style:italic;">Landmark: Near Water Tank</div>
+        </div>
+
+        <div style="margin:8px 0; border-bottom:1px dashed #000; padding-bottom:6px;">
+          <div style="font-weight:bold; margin-bottom:4px;">ITEMS TO DELIVER:</div>
+          <div id="slipItemsList" style="white-space:pre-line; font-size:0.8rem;">- Item list here</div>
+        </div>
+
+        <div style="margin:8px 0; border-bottom:1px dashed #000; padding-bottom:6px; display:flex; justify-content:space-between; font-size:1rem; font-weight:bold;">
+          <span>CASH TO COLLECT:</span>
+          <span id="slipTotal">₹0</span>
+        </div>
+
+        <div style="margin:6px 0; font-size:0.75rem;">
+          <div><strong>RIDER ASSIGNED:</strong> <span id="slipRider">Unassigned</span></div>
+          <div><strong>STAFF NOTES:</strong> <span id="slipNotes">None</span></div>
+        </div>
+
+        <div style="text-align:center; margin-top:10px; font-size:0.72rem; border-top:1px dashed #000; padding-top:6px;">
+          Customer Sign: ____________________<br>
+          Thank you for ordering with Tripathi Store!
+        </div>
+      </div>
+
+      <div style="display:flex; gap:0.5rem; justify-content:center; margin-top:1rem;" class="no-print">
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Print Slip</button>
+        <button class="btn btn-secondary" onclick="closeSlipModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- AUDIO ALERT (synthesized via Web Audio API) -->
+  <script>
+    // State management
+    let orders = [];
+    let currentFilter = 'all';
+    let searchQuery = '';
+    let sortOrder = 'newest';
+    let currentView = 'cards';
+    let soundAlertEnabled = true;
+    let pollInterval = null;
+    let lastKnownOrderIds = new Set();
+
+    const SHOP_WHATSAPP = '918960025119';
+
+    // Audio chime using Web Audio API
+    function playChime() {
+      if (!soundAlertEnabled) return;
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1); // A5
+        osc.frequency.setValueAtTime(1174.66, ctx.currentTime + 0.2); // D6
+
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.6);
+      } catch (e) {
+        console.warn('Audio chime could not play:', e);
+      }
+    }
+
+    function toggleAudioAlert() {
+      soundAlertEnabled = !soundAlertEnabled;
+      document.getElementById('soundIcon').textContent = soundAlertEnabled ? '🔔' : '🔕';
+      document.getElementById('soundText').textContent = soundAlertEnabled ? 'Sound Alert: ON' : 'Sound Alert: OFF';
+      showToast(soundAlertEnabled ? 'Sound alerts enabled for incoming orders' : 'Sound alerts muted');
+    }
+
+    function showToast(message, icon = '✅') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 2800);
+    }
+
+    /**
+     * =========================================================================
+     * DATABASE FETCHING & SYNCHRONIZATION
+     * =========================================================================
+     */
+    async function loadOrdersFromDatabase(isInitial = false) {
+      try {
+        const response = await fetch('/api/orders');
+        if (response.ok) {
+          const data = await response.json();
+          const fetchedOrders = data.orders || [];
+
+          // Check if there are new orders that weren't in last set
+          if (!isInitial && fetchedOrders.length > 0) {
+            const newArrivals = fetchedOrders.filter(o => !lastKnownOrderIds.has(o.id));
+            if (newArrivals.length > 0) {
+              playChime();
+              showToast(`🔔 New Order received: ${newArrivals[0].id} from ${newArrivals[0].customer}!`, '🛍️');
+            }
+          }
+
+          orders = fetchedOrders;
+          lastKnownOrderIds = new Set(orders.map(o => o.id));
+
+          // Also backup in localStorage
+          localStorage.setItem('sjm_orders', JSON.stringify(orders));
+          updateDbStatus(true);
+        } else {
+          fallbackToLocalStorage();
+        }
+      } catch (err) {
+        console.warn('Could not reach backend API, falling back to localStorage:', err);
+        fallbackToLocalStorage();
+      }
+
+      updateKPIs();
+      renderOrders();
+    }
+
+    function fallbackToLocalStorage() {
+      try {
+        const local = localStorage.getItem('sjm_orders');
+        if (local) {
+          orders = JSON.parse(local);
+        }
+      } catch (e) {
+        orders = [];
+      }
+      updateDbStatus(false);
+    }
+
+    function updateDbStatus(isOnline) {
+      const badge = document.getElementById('dbStatusBadge');
+      const text = document.getElementById('dbStatusText');
+      if (isOnline) {
+        badge.style.background = 'var(--primary-light)';
+        badge.style.color = 'var(--primary-dark)';
+        text.textContent = 'Database Online (Synced)';
+      } else {
+        badge.style.background = 'rgba(239, 68, 68, 0.15)';
+        badge.style.color = '#b91c1c';
+        text.textContent = 'Local Cache Mode';
+      }
+    }
+
+    /**
+     * =========================================================================
+     * KPI CALCULATIONS
+     * =========================================================================
+     */
+    function updateKPIs() {
+      const total = orders.length;
+      const pending = orders.filter(o => ['Confirmed', 'Packing', 'New Order'].includes(o.status)).length;
+      const out = orders.filter(o => o.status === 'Out for Delivery').length;
+      const pickup = orders.filter(o => o.orderType === 'pickup').length;
+      const sales = orders.reduce((sum, o) => sum + Number(o.total || 0), 0);
+
+      document.getElementById('metricTotalOrders').textContent = total;
+      document.getElementById('metricPendingOrders').textContent = pending;
+      document.getElementById('metricOutForDelivery').textContent = out;
+      document.getElementById('metricStorePickups').textContent = pickup;
+      document.getElementById('metricTotalSales').textContent = `₹${sales.toLocaleString('en-IN')}`;
+
+      // Update badge counts on tabs
+      document.getElementById('countAll').textContent = total;
+      document.getElementById('countDelivery').textContent = orders.filter(o => o.orderType !== 'pickup').length;
+      document.getElementById('countPickup').textContent = pickup;
+      document.getElementById('countPending').textContent = pending;
+      document.getElementById('countOut').textContent = out;
+      document.getElementById('countCompleted').textContent = orders.filter(o => ['Delivered', 'Picked Up'].includes(o.status)).length;
+    }
+
+    /**
+     * =========================================================================
+     * FILTERING & SORTING
+     * =========================================================================
+     */
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('#filterTabsList .filter-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === filter);
+      });
+      renderOrders();
+    }
+
+    function handleSearchFilter() {
+      searchQuery = document.getElementById('ownerSearchInput').value.trim().toLowerCase();
+      renderOrders();
+    }
+
+    function handleSortChange(val) {
+      sortOrder = val;
+      renderOrders();
+    }
+
+    function getFilteredOrders() {
+      let list = [...orders];
+
+      // Filter tabs
+      if (currentFilter === 'delivery') {
+        list = list.filter(o => o.orderType !== 'pickup');
+      } else if (currentFilter === 'pickup') {
+        list = list.filter(o => o.orderType === 'pickup');
+      } else if (currentFilter === 'pending') {
+        list = list.filter(o => ['Confirmed', 'Packing', 'New Order'].includes(o.status));
+      } else if (currentFilter === 'out') {
+        list = list.filter(o => o.status === 'Out for Delivery');
+      } else if (currentFilter === 'completed') {
+        list = list.filter(o => ['Delivered', 'Picked Up'].includes(o.status));
+      }
+
+      // Search query across name, phone, address, landmark, id, items
+      if (searchQuery) {
+        list = list.filter(o => {
+          const hay = [
+            o.id,
+            o.customer,
+            o.phone,
+            o.address,
+            o.landmark,
+            o.items,
+            o.deliveryBoy,
+            o.status
+          ].join(' ').toLowerCase();
+          return hay.includes(searchQuery);
+        });
+      }
+
+      // Sort
+      if (sortOrder === 'newest') {
+        list.sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
+      } else if (sortOrder === 'oldest') {
+        list.sort((a, b) => new Date(a.createdAt || a.date) - new Date(b.createdAt || b.date));
+      } else if (sortOrder === 'highest') {
+        list.sort((a, b) => Number(b.total || 0) - Number(a.total || 0));
+      }
+
+      return list;
+    }
+
+    /**
+     * =========================================================================
+     * RENDERING: CARDS & TABLE
+     * =========================================================================
+     */
+    function switchView(view) {
+      currentView = view;
+      document.getElementById('cardViewBtn').classList.toggle('active', view === 'cards');
+      document.getElementById('tableViewBtn').classList.toggle('active', view === 'table');
+      document.getElementById('ordersGridContainer').style.display = view === 'cards' ? 'grid' : 'none';
+      document.getElementById('ordersTableWrapper').style.display = view === 'table' ? 'block' : 'none';
+      renderOrders();
+    }
+
+    function renderOrders() {
+      const list = getFilteredOrders();
+      document.getElementById('visibleOrderCountText').textContent = `(Showing ${list.length} orders)`;
+
+      if (currentView === 'cards') {
+        renderCardsView(list);
+      } else {
+        renderTableView(list);
+      }
+    }
+
+    function renderCardsView(list) {
+      const container = document.getElementById('ordersGridContainer');
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column:1/-1; text-align:center; padding:3rem 1rem; background:var(--bg-surface); border:1px dashed var(--border); border-radius:12px;">
+            <div style="font-size:2.5rem; margin-bottom:0.5rem;">🔍</div>
+            <h3 style="font-size:1.15rem; font-weight:800; margin-bottom:0.3rem;">No Orders Match Your Filter</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Try clearing your search query or selecting 'All Orders'.</p>
+            <button class="btn btn-secondary" onclick="resetFilters()">Reset All Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(o => createOrderCardHTML(o)).join('');
+    }
+
+    function createOrderCardHTML(o) {
+      const isPickup = o.orderType === 'pickup';
+      const isOut = o.status === 'Out for Delivery';
+      const isDone = o.status === 'Delivered' || o.status === 'Picked Up';
+      const cleanPhone = (o.phone || '').replace(/[^0-9]/g, '');
+
+      // Google Maps query URL for 1-click GPS navigation
+      const mapQuery = encodeURIComponent(`${o.address} ${o.landmark || ''}`);
+      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
+      // Status badge style
+      let statusStyle = 'background:rgba(59,130,246,0.12); color:#2563eb; border-color:rgba(59,130,246,0.3);';
+      let statusIcon = '📝';
+      if (o.status === 'Packing') {
+        statusStyle = 'background:rgba(245,158,11,0.12); color:#d97706; border-color:rgba(245,158,11,0.3);';
+        statusIcon = '🛍️';
+      } else if (isOut) {
+        statusStyle = 'background:rgba(236,72,153,0.12); color:#db2777; border-color:rgba(236,72,153,0.3);';
+        statusIcon = '🛵';
+      } else if (o.status === 'Ready for Pickup') {
+        statusStyle = 'background:rgba(14,165,233,0.12); color:#0284c7; border-color:rgba(14,165,233,0.3);';
+        statusIcon = '🏪';
+      } else if (isDone) {
+        statusStyle = 'background:rgba(16,185,129,0.12); color:#059669; border-color:rgba(16,185,129,0.3);';
+        statusIcon = isPickup ? '🤝' : '🏡';
+      }
+
+      return `
+        <div class="order-card ${isOut ? 'urgent-out' : ''}" id="card-${o.id}">
+          <div class="order-card-header">
+            <div>
+              <div class="order-card-id">#${o.id}</div>
+              <div class="order-time-tag">📅 ${o.date || ''} • ${o.time || ''}</div>
+            </div>
+            <div class="order-badges-wrap">
+              <span class="badge ${isPickup ? 'badge-pickup' : 'badge-delivery'}">
+                ${isPickup ? '🏪 Store Pickup' : '🛵 Home Delivery'}
+              </span>
+              <span class="badge badge-status" style="${statusStyle}">
+                ${statusIcon} ${o.status}
+              </span>
+            </div>
+          </div>
+
+          <div class="order-card-body">
+            <!-- Customer & Delivery Address Box -->
+            <div class="delivery-dest-box">
+              <div class="dest-cust-row">
+                <div class="cust-name">
+                  👤 <strong>${escapeHTML(o.customer)}</strong>
+                </div>
+                <div class="cust-phone-actions">
+                  <a href="tel:${cleanPhone}" class="phone-btn call" title="Call customer">
+                    📞 ${cleanPhone}
+                  </a>
+                  <a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`Hi ${o.customer}, Tripathi Store here regarding your order #${o.id}`)}" target="_blank" class="phone-btn wa" title="Chat on WhatsApp">
+                    💬 WhatsApp
+                  </a>
+                </div>
+              </div>
+
+              ${o.alternatePhone ? `
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; background:rgba(234,88,12,0.08); padding:5px 8px; border-radius:6px; border:1px solid rgba(234,88,12,0.2); font-size:0.75rem;">
+                  <span style="color:#c2410c; font-weight:700;">📞 Alt Mobile: ${escapeHTML(o.alternatePhone)}</span>
+                  <a href="tel:${escapeHTML(o.alternatePhone).replace(/[^0-9]/g, '')}" class="phone-btn call" style="padding:2px 7px; font-size:0.72rem;">
+                    Call Alt
+                  </a>
+                </div>
+              ` : ''}
+
+              ${isPickup ? `
+                <div style="font-size:0.8rem; color:var(--text-muted); background:var(--bg-surface); padding:0.5rem; border-radius:6px; border-left:3px solid #0284c7;">
+                  <div>🏪 <strong>Counter Pickup Slot:</strong> ${escapeHTML(o.pickupTime || 'Ready in ~15 mins')}</div>
+                  ${o.pickupNote ? `<div style="margin-top:2px;">📝 <strong>Customer Note:</strong> ${escapeHTML(o.pickupNote)}</div>` : ''}
+                </div>
+              ` : `
+                <div class="dest-address">
+                  <span>📍</span>
+                  <span><strong>Delivery Address:</strong> ${escapeHTML(o.address || 'Address provided at order')}</span>
+                </div>
+                ${o.landmark ? `
+                  <div class="dest-landmark">
+                    <span>🏷️ Landmark:</span> ${escapeHTML(o.landmark)}
+                  </div>
+                ` : ''}
+                <div>
+                  <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="dest-nav-btn" title="Open GPS directions in Google Maps">
+                    🗺️ Navigate in Google Maps ↗
+                  </a>
+                </div>
+              `}
+            </div>
+
+            <!-- Items Ordered -->
+            <div class="order-items-box">
+              <div class="order-items-title">
+                <span>🛒 Items Ordered</span>
+                <span style="color:var(--text-muted);">${o.itemsList ? o.itemsList.length : ''} types</span>
+              </div>
+              <div class="order-items-text">
+                ${escapeHTML(o.items || '')}
+              </div>
+              ${o.notes ? `
+                <div style="margin-top:0.35rem; font-size:0.75rem; color:#b45309; background:rgba(245,158,11,0.1); padding:3px 6px; border-radius:4px;">
+                  ⚠️ <strong>Staff Note:</strong> ${escapeHTML(o.notes)}
+                </div>
+              ` : ''}
+            </div>
+
+            <!-- Total Bill & Payment -->
+            <div class="order-bill-row">
+              <div class="order-amount-pill">
+                <span class="amt">₹${o.total}</span>
+                <span class="pmt-mode">💵 ${escapeHTML(o.paymentMode || 'COD')}</span>
+              </div>
+
+              <div class="rider-assigned-box">
+                <span>🛵 Rider:</span>
+                <strong style="color:var(--text-main);">${escapeHTML(o.deliveryBoy || 'Unassigned')}</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Dispatch Footer -->
+          <div class="order-card-footer">
+            <div class="status-select-wrap">
+              <select onchange="updateOrderStatus('${o.id}', this.value)">
+                <option value="Confirmed" ${o.status === 'Confirmed' ? 'selected' : ''}>📝 Confirmed</option>
+                <option value="Packing" ${o.status === 'Packing' ? 'selected' : ''}>🛍️ Packing</option>
+                ${isPickup ? `
+                  <option value="Ready for Pickup" ${o.status === 'Ready for Pickup' ? 'selected' : ''}>🏪 Ready for Pickup</option>
+                  <option value="Picked Up" ${o.status === 'Picked Up' ? 'selected' : ''}>🤝 Picked Up</option>
+                ` : `
+                  <option value="Out for Delivery" ${o.status === 'Out for Delivery' ? 'selected' : ''}>🛵 Out for Delivery</option>
+                  <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>🏡 Delivered</option>
+                `}
+                <option value="Cancelled" ${o.status === 'Cancelled' ? 'selected' : ''}>❌ Cancelled</option>
+              </select>
+            </div>
+
+            <div class="card-action-btns">
+              <button class="icon-action-btn" onclick="openSlipModal('${o.id}')" title="Print Delivery Slip / Receipt">
+                🖨️
+              </button>
+              <button class="icon-action-btn" onclick="sendDeliveryWhatsApp('${o.id}')" title="Send WhatsApp Update to Customer">
+                💬
+              </button>
+              <button class="icon-action-btn" onclick="assignRiderPrompt('${o.id}')" title="Assign / Change Delivery Rider">
+                🛵
+              </button>
+              <button class="icon-action-btn" onclick="deleteOrderConfirm('${o.id}')" title="Delete from Database" style="color:#ef4444;">
+                🗑️
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTableView(list) {
+      const tbody = document.getElementById('ordersTableBody');
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:2rem; color:var(--text-muted);">No orders found matching criteria.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(o => {
+        const isPickup = o.orderType === 'pickup';
+        const cleanPhone = (o.phone || '').replace(/[^0-9]/g, '');
+        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${o.address} ${o.landmark || ''}`)}`;
+
+        return `
+          <tr>
+            <td>
+              <strong style="font-family:monospace; font-size:0.9rem;">#${o.id}</strong><br>
+              <span style="font-size:0.75rem; color:var(--text-muted);">${o.date} ${o.time || ''}</span>
+            </td>
+            <td>
+              <span class="badge ${isPickup ? 'badge-pickup' : 'badge-delivery'}">
+                ${isPickup ? '🏪 Pickup' : '🛵 Delivery'}
+              </span>
+            </td>
+            <td>
+              <strong>${escapeHTML(o.customer)}</strong><br>
+              <a href="tel:${cleanPhone}" style="color:#2563eb; text-decoration:none; font-weight:700;">📞 ${cleanPhone}</a>
+              ${o.alternatePhone ? `<br><a href="tel:${escapeHTML(o.alternatePhone).replace(/[^0-9]/g, '')}" style="color:#c2410c; text-decoration:none; font-size:0.75rem; font-weight:600;">Alt: ${escapeHTML(o.alternatePhone)}</a>` : ''}
+            </td>
+            <td style="max-width:260px;">
+              <div>${escapeHTML(o.address)}</div>
+              ${o.landmark ? `<span style="font-size:0.75rem; color:var(--accent); font-weight:700;">🏷️ ${escapeHTML(o.landmark)}</span><br>` : ''}
+              ${!isPickup ? `<a href="${mapUrl}" target="_blank" style="font-size:0.73rem; color:#0284c7; text-decoration:underline;">Open Map ↗</a>` : ''}
+            </td>
+            <td style="max-width:240px; font-size:0.78rem;">
+              ${escapeHTML(o.items)}
+            </td>
+            <td>
+              <strong style="color:var(--primary); font-size:0.95rem;">₹${o.total}</strong><br>
+              <span style="font-size:0.72rem; color:var(--text-muted);">${escapeHTML(o.paymentMode || 'COD')}</span>
+            </td>
+            <td>
+              <span style="font-size:0.8rem;">${escapeHTML(o.deliveryBoy || 'Unassigned')}</span>
+            </td>
+            <td>
+              <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:3px 6px; font-size:0.75rem; border-radius:6px; border:1px solid var(--border); font-weight:700;">
+                <option value="Confirmed" ${o.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                <option value="Packing" ${o.status === 'Packing' ? 'selected' : ''}>Packing</option>
+                <option value="Out for Delivery" ${o.status === 'Out for Delivery' ? 'selected' : ''}>Out for Delivery</option>
+                <option value="Ready for Pickup" ${o.status === 'Ready for Pickup' ? 'selected' : ''}>Ready for Pickup</option>
+                <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                <option value="Picked Up" ${o.status === 'Picked Up' ? 'selected' : ''}>Picked Up</option>
+                <option value="Cancelled" ${o.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+              </select>
+            </td>
+            <td>
+              <div style="display:flex; gap:0.25rem;">
+                <button class="icon-action-btn" onclick="openSlipModal('${o.id}')" title="Print Slip">🖨️</button>
+                <button class="icon-action-btn" onclick="sendDeliveryWhatsApp('${o.id}')" title="WhatsApp Customer">💬</button>
+                <button class="icon-action-btn" onclick="deleteOrderConfirm('${o.id}')" style="color:#ef4444;" title="Delete">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function resetFilters() {
+      currentFilter = 'all';
+      searchQuery = '';
+      document.getElementById('ownerSearchInput').value = '';
+      setFilter('all');
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    /**
+     * =========================================================================
+     * ORDER STATUS & DISPATCH ACTIONS
+     * =========================================================================
+     */
+    async function updateOrderStatus(orderId, newStatus) {
+      try {
+        const response = await fetch(`/api/orders/${orderId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const idx = orders.findIndex(o => o.id === orderId);
+          if (idx !== -1) {
+            orders[idx].status = newStatus;
+          }
+          showToast(`Order #${orderId} marked as "${newStatus}"`);
+        } else {
+          // Local fallback
+          const idx = orders.findIndex(o => o.id === orderId);
+          if (idx !== -1) {
+            orders[idx].status = newStatus;
+            localStorage.setItem('sjm_orders', JSON.stringify(orders));
+            showToast(`Order #${orderId} updated in local storage`);
+          }
+        }
+      } catch (e) {
+        const idx = orders.findIndex(o => o.id === orderId);
+        if (idx !== -1) {
+          orders[idx].status = newStatus;
+          localStorage.setItem('sjm_orders', JSON.stringify(orders));
+          showToast(`Order #${orderId} updated`);
+        }
+      }
+
+      updateKPIs();
+      renderOrders();
+    }
+
+    async function assignRiderPrompt(orderId) {
+      const order = orders.find(o => o.id === orderId);
+      if (!order) return;
+
+      const rider = prompt(`Assign Delivery Rider for Order #${orderId} (e.g. Ramesh Kumar - 9811223344):`, order.deliveryBoy !== 'Unassigned' ? order.deliveryBoy : 'Ramesh Kumar (9811223344)');
+      if (rider === null) return;
+
+      try {
+        await fetch(`/api/orders/${orderId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ deliveryBoy: rider.trim() })
+        });
+      } catch (e) {
+        console.warn(e);
+      }
+
+      order.deliveryBoy = rider.trim();
+      localStorage.setItem('sjm_orders', JSON.stringify(orders));
+      showToast(`Assigned rider: ${rider.trim()}`);
+      renderOrders();
+    }
+
+    function sendDeliveryWhatsApp(orderId) {
+      const order = orders.find(o => o.id === orderId);
+      if (!order) return;
+
+      const cleanPhone = (order.phone || '').replace(/[^0-9]/g, '');
+      const isPickup = order.orderType === 'pickup';
+
+      let msg = `*TRIPATHI STORE - ORDER UPDATE*\n`;
+      msg += `------------------------------------\n`;
+      msg += `Hello ${order.customer}!\n`;
+      msg += `Your grocery order *#${order.id}* (Total: ₹${order.total}) status has been updated to: *${order.status}*.\n`;
+
+      if (isPickup) {
+        msg += `\n🏪 *Store Pickup Info:*\n`;
+        msg += `Your bag is pre-packed and ready at our Express Counter!\n`;
+        msg += `📍 Location: Shop No. 12, Main Market Road\n`;
+        msg += `📞 Helpline: +91 8960025119\n`;
+      } else {
+        msg += `\n🛵 *Delivery Info:*\n`;
+        msg += `📍 Destination: ${order.address}\n`;
+        if (order.deliveryBoy && order.deliveryBoy !== 'Unassigned') {
+          msg += `🛵 Rider Assigned: ${order.deliveryBoy}\n`;
+        }
+        msg += `Our delivery partner will arrive at your doorstep shortly.\n`;
+      }
+
+      msg += `\nThank you for choosing Tripathi Store!`;
+
+      const url = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    }
+
+    async function deleteOrderConfirm(orderId) {
+      if (!confirm(`Are you sure you want to delete order #${orderId} from the database?`)) return;
+
+      try {
+        await fetch(`/api/orders/${orderId}`, { method: 'DELETE' });
+      } catch (e) {
+        console.warn(e);
+      }
+
+      orders = orders.filter(o => o.id !== orderId);
+      localStorage.setItem('sjm_orders', JSON.stringify(orders));
+      showToast(`Order #${orderId} removed`, '🗑️');
+      updateKPIs();
+      renderOrders();
+    }
+
+    /**
+     * =========================================================================
+     * DELIVERY SLIP / PRINT MODAL
+     * =========================================================================
+     */
+    function openSlipModal(orderId) {
+      const order = orders.find(o => o.id === orderId);
+      if (!order) return;
+
+      const isPickup = order.orderType === 'pickup';
+      document.getElementById('slipOrderType').textContent = isPickup ? '*** IN-STORE PICKUP SLIP ***' : '*** HOME DELIVERY DISPATCH SLIP ***';
+      document.getElementById('slipOrderId').textContent = `#${order.id}`;
+      document.getElementById('slipOrderDate').textContent = `Date: ${order.date || ''} ${order.time || ''}`;
+      document.getElementById('slipCustomer').textContent = order.customer;
+      document.getElementById('slipPhone').textContent = order.phone;
+      document.getElementById('slipAddress').textContent = order.address;
+      document.getElementById('slipLandmark').textContent = order.landmark ? `Landmark: ${order.landmark}` : '';
+      document.getElementById('slipItemsList').textContent = order.itemsList && order.itemsList.length > 0 
+        ? order.itemsList.map((item, i) => `${i + 1}. ${item.name} (${item.unit || ''}) x${item.quantity || item.qty} = ₹${item.total || item.price * (item.quantity || item.qty)}`).join('\n')
+        : order.items;
+      document.getElementById('slipTotal').textContent = `₹${order.total} (${order.paymentMode || 'COD'})`;
+      document.getElementById('slipRider').textContent = order.deliveryBoy || 'Unassigned';
+      document.getElementById('slipNotes').textContent = order.notes || 'None';
+
+      document.getElementById('deliverySlipModal').classList.add('active');
+    }
+
+    function closeSlipModal() {
+      document.getElementById('deliverySlipModal').classList.remove('active');
+    }
+
+    /**
+     * =========================================================================
+     * MANUAL / PHONE ORDER CREATION MODAL
+     * =========================================================================
+     */
+    function openManualOrderModal() {
+      document.getElementById('manualOrderForm').reset();
+      toggleManualOrderType('delivery');
+      document.getElementById('manualOrderModal').classList.add('active');
+    }
+
+    function closeManualOrderModal() {
+      document.getElementById('manualOrderModal').classList.remove('active');
+    }
+
+    function toggleManualOrderType(type) {
+      document.getElementById('manDeliveryFields').style.display = type === 'delivery' ? 'block' : 'none';
+      document.getElementById('manPickupFields').style.display = type === 'pickup' ? 'block' : 'none';
+    }
+
+    async function handleManualOrderSubmit(e) {
+      e.preventDefault();
+      const type = document.querySelector('input[name="manualOrderType"]:checked').value;
+      const name = document.getElementById('manCustName').value.trim();
+      const phone = document.getElementById('manCustPhone').value.trim();
+      const address = type === 'delivery' ? document.getElementById('manCustAddress').value.trim() : 'Store Counter Express Pickup';
+      const landmark = type === 'delivery' ? document.getElementById('manCustLandmark').value.trim() : 'Shop No. 12';
+      const pickupTime = type === 'pickup' ? document.getElementById('manPickupTime').value.trim() : null;
+      const items = document.getElementById('manOrderItems').value.trim();
+      const total = Number(document.getElementById('manOrderTotal').value) || 0;
+      const rider = document.getElementById('manRiderName').value.trim() || (type === 'delivery' ? 'Unassigned' : 'Counter Desk');
+      const notes = document.getElementById('manNotes').value.trim();
+
+      const orderPayload = {
+        orderType: type,
+        customer: name,
+        phone: phone,
+        address: address,
+        landmark: landmark,
+        items: items,
+        total: total,
+        subtotal: total,
+        delivery: 0,
+        discount: 0,
+        paymentMode: type === 'delivery' ? 'Cash on Delivery (COD)' : 'Pay on Pickup',
+        deliveryBoy: rider,
+        pickupTime: pickupTime,
+        notes: notes
+      };
+
+      try {
+        const res = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderPayload)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          orders.unshift(data.order);
+          showToast(`Manual order #${data.order.id} saved to database!`, '🎉');
+        } else {
+          // fallback
+          orderPayload.id = `TS-${Math.floor(1000 + Math.random() * 9000)}`;
+          orderPayload.date = new Date().toISOString().split('T')[0];
+          orderPayload.time = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+          orderPayload.status = 'Confirmed';
+          orders.unshift(orderPayload);
+          localStorage.setItem('sjm_orders', JSON.stringify(orders));
+          showToast(`Order #${orderPayload.id} saved locally`, '🎉');
+        }
+      } catch (err) {
+        orderPayload.id = `TS-${Math.floor(1000 + Math.random() * 9000)}`;
+        orderPayload.date = new Date().toISOString().split('T')[0];
+        orderPayload.time = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+        orderPayload.status = 'Confirmed';
+        orders.unshift(orderPayload);
+        localStorage.setItem('sjm_orders', JSON.stringify(orders));
+        showToast(`Order saved locally`, '🎉');
+      }
+
+      closeManualOrderModal();
+      updateKPIs();
+      renderOrders();
+    }
+
+    /**
+     * =========================================================================
+     * EXPORT DATABASE TO CSV
+     * =========================================================================
+     */
+    function exportOrdersToCSV() {
+      if (orders.length === 0) {
+        showToast('No orders to export', '⚠️');
+        return;
+      }
+
+      let csv = 'Order ID,Order Type,Customer Name,Mobile Phone,Delivery Address,Landmark,Items,Total Amount,Payment Mode,Status,Rider,Date,Time\n';
+
+      orders.forEach(o => {
+        const row = [
+          o.id,
+          o.orderType,
+          `"${(o.customer || '').replace(/"/g, '""')}"`,
+          `"${(o.phone || '').replace(/"/g, '""')}"`,
+          `"${(o.address || '').replace(/"/g, '""')}"`,
+          `"${(o.landmark || '').replace(/"/g, '""')}"`,
+          `"${(o.items || '').replace(/"/g, '""')}"`,
+          o.total,
+          `"${o.paymentMode || ''}"`,
+          o.status,
+          `"${(o.deliveryBoy || '').replace(/"/g, '""')}"`,
+          o.date,
+          o.time || ''
+        ];
+        csv += row.join(',') + '\n';
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `TripathiStore_OrdersDatabase_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Exported database to CSV!');
+    }
+
+    /**
+     * =========================================================================
+     * INIT & POLLING
+     * =========================================================================
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      loadOrdersFromDatabase(true);
+
+      // Auto-poll database every 6 seconds to catch new customer orders instantly
+      pollInterval = setInterval(() => {
+        loadOrdersFromDatabase(false);
+      }, 6000);
+    });
+  </script>
+</body>
+</html>

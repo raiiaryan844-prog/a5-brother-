@@ -1,0 +1,168 @@
+[
+  {
+    "id": "TS-6027",
+    "orderType": "pickup",
+    "customer": "Rohan Verma",
+    "phone": "9123456780",
+    "address": "Store Counter Pickup",
+    "landmark": "",
+    "items": "Amul Butter 500g (x1)",
+    "itemsList": [],
+    "subtotal": 0,
+    "discount": 0,
+    "delivery": 0,
+    "couponCode": null,
+    "total": 275,
+    "paymentMode": "Pay on Pickup (Cash/UPI)",
+    "paymentStatus": "Pending",
+    "status": "Confirmed",
+    "deliveryBoy": "Unassigned",
+    "pickupTime": "Within 1 Hour",
+    "pickupNote": null,
+    "notes": "",
+    "date": "2026-09-12",
+    "time": "07:21 am",
+    "deliveryDate": "2026-09-12",
+    "createdAt": "2026-09-12T07:21:06.216Z"
+  },
+  {
+    "id": "TS-9204",
+    "orderType": "delivery",
+    "customer": "Amit Sharma",
+    "phone": "9876543210",
+    "address": "Flat 402, Royal Palms, Sector 14, Main Market Road",
+    "landmark": "Near City Hospital & Axis Bank ATM",
+    "items": "Fresh Cow Milk (x2), Aashirvaad Shuddh Chakki Atta 5kg (x1), Farm Fresh Tomatoes 1kg (x2)",
+    "itemsList": [
+      {
+        "name": "Fresh Cow Milk",
+        "unit": "1 Litre",
+        "quantity": 2,
+        "price": 64,
+        "total": 128
+      },
+      {
+        "name": "Aashirvaad Shuddh Chakki Atta 5kg",
+        "unit": "5 kg bag",
+        "quantity": 1,
+        "price": 245,
+        "total": 245
+      },
+      {
+        "name": "Farm Fresh Tomatoes 1kg",
+        "unit": "1 kg",
+        "quantity": 2,
+        "price": 32,
+        "total": 64
+      }
+    ],
+    "subtotal": 437,
+    "discount": 44,
+    "delivery": 0,
+    "couponCode": "FRESH10",
+    "total": 393,
+    "paymentMode": "Cash on Delivery (COD)",
+    "paymentStatus": "Pending",
+    "status": "Out for Delivery",
+    "deliveryBoy": "Ramesh Kumar (Rider - 9811223344)",
+    "date": "2026-09-12",
+    "time": "09:30 AM",
+    "deliveryDate": "2026-09-12",
+    "notes": "Call customer on arrival at building gate.",
+    "createdAt": "2026-09-12T04:00:00.000Z"
+  },
+  {
+    "id": "TS-8119",
+    "orderType": "pickup",
+    "pickupTime": "⚡ ASAP - Ready in 15-20 Mins",
+    "pickupNote": "Please keep milk and paneer in chilled bag.",
+    "customer": "Pooja Verma",
+    "phone": "9123456780",
+    "address": "Store Counter Pickup - Tripathi Store, Shop No. 12",
+    "landmark": "Express Pickup Counter",
+    "items": "Amul Pure Malai Paneer 200g (x2), Britannia Whole Wheat Bread 400g (x1), Fresh Farm Potatoes 1kg (x1)",
+    "itemsList": [
+      {
+        "name": "Amul Pure Malai Paneer 200g",
+        "unit": "200 g pack",
+        "quantity": 2,
+        "price": 88,
+        "total": 176
+      },
+      {
+        "name": "Britannia Whole Wheat Bread 400g",
+        "unit": "400 g loaf",
+        "quantity": 1,
+        "price": 42,
+        "total": 42
+      },
+      {
+        "name": "Fresh Farm Potatoes 1kg",
+        "unit": "1 kg",
+        "quantity": 1,
+        "price": 28,
+        "total": 28
+      }
+    ],
+    "subtotal": 246,
+    "discount": 0,
+    "delivery": 0,
+    "couponCode": null,
+    "total": 246,
+    "paymentMode": "Pay at Store Counter (UPI/Cash)",
+    "paymentStatus": "Pending",
+    "status": "Ready for Pickup",
+    "deliveryBoy": "Store Counter Desk",
+    "date": "2026-09-12",
+    "time": "10:15 AM",
+    "deliveryDate": "2026-09-12",
+    "notes": "Customer picking up on way home.",
+    "createdAt": "2026-09-12T04:45:00.000Z"
+  },
+  {
+    "id": "TS-7431",
+    "orderType": "delivery",
+    "customer": "Sunita Devi",
+    "phone": "8877665544",
+    "address": "House No. 18, Block B, Green Park Colony, Lane 3",
+    "landmark": "Opposite Community Water Tank",
+    "items": "Fortune Everyday Basmati Rice 5kg (x1), Tata Salt Vacuum Evaporated 1kg (x2), Tata Tea Gold 500g (x1)",
+    "itemsList": [
+      {
+        "name": "Fortune Everyday Basmati Rice 5kg",
+        "unit": "5 kg pack",
+        "quantity": 1,
+        "price": 380,
+        "total": 380
+      },
+      {
+        "name": "Tata Salt Vacuum Evaporated 1kg",
+        "unit": "1 kg pack",
+        "quantity": 2,
+        "price": 26,
+        "total": 52
+      },
+      {
+        "name": "Tata Tea Gold 500g",
+        "unit": "500 g pack",
+        "quantity": 1,
+        "price": 290,
+        "total": 290
+      }
+    ],
+    "subtotal": 722,
+    "discount": 72,
+    "delivery": 0,
+    "couponCode": "FRESH10",
+    "total": 650,
+    "paymentMode": "Cash on Delivery (COD)",
+    "paymentStatus": "Pending",
+    "status": "Packing",
+    "deliveryBoy": "Unassigned",
+    "date": "2026-09-12",
+    "time": "11:05 AM",
+    "deliveryDate": "2026-09-12",
+    "notes": "Verify rice seal before packing.",
+    "createdAt": "2026-09-12T05:35:00.000Z"
+  }
+]

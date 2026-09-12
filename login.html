@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Account — TRIPATHI STORE</title>
+  <meta name="description" content="Sign in or create your customer account at Tripathi Store. Manage your username, profile photo, primary mobile number, and alternate delivery contact number.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #15803d;
+      --primary-dark: #166534;
+      --primary-light: #dcfce7;
+      --primary-hover: #14532d;
+      --accent: #f97316;
+      --accent-light: #ffedd5;
+      --accent-hover: #ea580c;
+      --bg-base: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-surface-alt: #f1f5f9;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --radius: 12px;
+      --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    }
+
+    [data-theme="dark"] {
+      --bg-base: #090d16;
+      --bg-surface: #111827;
+      --bg-surface-alt: #1f2937;
+      --border: #374151;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --primary-light: rgba(34, 197, 94, 0.15);
+      --accent-light: rgba(249, 115, 22, 0.15);
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    /* Header */
+    .login-header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 2px 6px rgba(21, 128, 61, 0.3);
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    [data-theme="dark"] .brand-title {
+      color: #4ade80;
+    }
+
+    .brand-sub {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .theme-toggle-btn, .back-store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface-alt);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover, .back-store-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Main Auth Section */
+    .auth-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1rem;
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 520px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-surface-alt);
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      padding: 1rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      border-bottom: 3px solid transparent;
+    }
+
+    .auth-tab-btn:hover {
+      color: var(--primary);
+    }
+
+    .auth-tab-btn.active {
+      color: var(--primary);
+      background: var(--bg-surface);
+      border-bottom-color: var(--primary);
+    }
+
+    .auth-body {
+      padding: 2rem 2rem 2.2rem 2rem;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 1.75rem;
+    }
+
+    .auth-header h2 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+    }
+
+    .auth-header p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--text-main);
+    }
+
+    .form-label .sub-hint {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .input-with-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      font-size: 1rem;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.6rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg-surface-alt);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+      background: var(--bg-surface);
+    }
+
+    /* Profile Image Selector */
+    .profile-image-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1.25rem;
+      background: var(--bg-surface-alt);
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+    }
+
+    .avatar-preview-wrap {
+      position: relative;
+      width: 92px;
+      height: 92px;
+    }
+
+    .avatar-preview-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+    }
+
+    .avatar-edit-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      border: 2px solid var(--bg-surface);
+      cursor: pointer;
+    }
+
+    .avatar-upload-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      text-align: center;
+    }
+
+    .custom-file-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .custom-file-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .hidden-file-input {
+      display: none;
+    }
+
+    .preset-avatars-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.4rem;
+    }
+
+    .preset-avatars-list {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .preset-avatar-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .preset-avatar-btn:hover, .preset-avatar-btn.active {
+      transform: scale(1.15);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-light);
+    }
+
+    /* Buttons */
+    .btn-submit {
+      width: 100%;
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(21, 128, 61, 0.25);
+    }
+
+    .btn-submit:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .quick-login-card {
+      margin-top: 1.5rem;
+      padding: 1.1rem;
+      border: 1.5px dashed var(--accent);
+      border-radius: 12px;
+      background: var(--accent-light);
+      text-align: center;
+    }
+
+    .quick-login-card h5 {
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--accent-hover);
+      margin-bottom: 0.25rem;
+    }
+
+    .quick-login-card p {
+      font-size: 0.78rem;
+      color: var(--text-main);
+      margin-bottom: 0.75rem;
+    }
+
+    .btn-quick-demo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.84rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .btn-quick-demo:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Already Logged In View */
+    .logged-in-box {
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .logged-in-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--primary);
+      margin: 0 auto 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: block;
+    }
+
+    .logged-in-details {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-row span:first-child {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .detail-row span:last-child {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .logged-in-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-direction: column;
+    }
+
+    .btn-secondary {
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      background: var(--bg-surface-alt);
+      color: var(--text-main);
+      font-weight: 700;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-danger {
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      background: rgba(239, 68, 68, 0.1);
+      color: #dc2626;
+      font-weight: 700;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      color: #fff;
+    }
+
+    /* Toast */
+    .toast-popup {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #0f172a;
+      color: #fff;
+      padding: 0.85rem 1.4rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+    }
+
+    .toast-popup.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 640px) {
+      .auth-body {
+        padding: 1.5rem 1.25rem;
+      }
+      .brand-sub {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="login-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="/" class="brand-logo-wrap" title="Go to Home Store">
+          <div class="brand-icon">🌿</div>
+          <div>
+            <h1 class="brand-title">TRIPATHI STORE</h1>
+            <span class="brand-sub">Fresh • Fast • Affordable</span>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle theme">
+            <span id="themeIcon">🌙</span>
+          </button>
+          <a href="/" class="back-store-btn" title="Back to Shopping">
+            <span>🛒 Back to Store</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Auth Main Container -->
+  <main class="auth-main">
+    <div class="auth-container">
+      
+      <!-- Already logged in state (hidden by default) -->
+      <div id="alreadyLoggedInState" style="display: none;" class="auth-body">
+        <div class="logged-in-box">
+          <img id="currentAvatarImg" src="" alt="User Avatar" class="logged-in-avatar" />
+          <h2 id="currentGreeting" style="font-size: 1.4rem; font-weight: 800;">Welcome back!</h2>
+          <p style="color: var(--text-muted); font-size: 0.88rem;">You are signed in to Tripathi Store</p>
+
+          <div class="logged-in-details">
+            <div class="detail-row">
+              <span>Username:</span>
+              <span id="infoUsername">-</span>
+            </div>
+            <div class="detail-row">
+              <span>Primary Mobile No:</span>
+              <span id="infoMobileNo">-</span>
+            </div>
+            <div class="detail-row">
+              <span>Alternate Mobile No:</span>
+              <span id="infoAlternateNo">Not provided</span>
+            </div>
+            <div class="detail-row">
+              <span>Default Delivery Address:</span>
+              <span id="infoAddress" style="text-align: right; max-width: 230px;">-</span>
+            </div>
+          </div>
+
+          <div class="logged-in-actions">
+            <a href="/" class="btn-submit" style="text-decoration: none;">
+              🛍️ Continue Shopping
+            </a>
+            <button type="button" class="btn-secondary" onclick="openEditMode()">
+              ✏️ Edit Profile & Phone Numbers
+            </button>
+            <button type="button" class="btn-danger" onclick="logoutUser()">
+              🚪 Sign Out from Account
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Auth Form Tabs (Login & Register) -->
+      <div id="authFormsState">
+        <div class="auth-tabs" role="tablist">
+          <button type="button" class="auth-tab-btn active" id="tabLoginBtn" onclick="switchAuthTab('login')" role="tab">
+            <span>🔑 Sign In</span>
+          </button>
+          <button type="button" class="auth-tab-btn" id="tabRegisterBtn" onclick="switchAuthTab('register')" role="tab">
+            <span>✨ Create Account</span>
+          </button>
+        </div>
+
+        <div class="auth-body">
+          
+          <!-- TAB 1: SIGN IN FORM -->
+          <div id="loginFormSection">
+            <div class="auth-header">
+              <h2>Welcome to Tripathi Store</h2>
+              <p>Sign in with your username or registered mobile number</p>
+            </div>
+
+            <form id="loginForm">
+              <div class="form-group">
+                <label class="form-label" for="loginIdentifier">Username or Mobile Number *</label>
+                <div class="input-with-icon">
+                  <span class="input-icon">👤</span>
+                  <input type="text" id="loginIdentifier" class="form-control" placeholder="e.g. Aryan Rai or 8960025119" required autocomplete="username">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="loginPassword">Password or PIN (Optional in demo mode)</label>
+                <div class="input-with-icon">
+                  <span class="input-icon">🔒</span>
+                  <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password / PIN" autocomplete="current-password">
+                </div>
+              </div>
+
+              <button type="submit" class="btn-submit" id="loginSubmitBtn">
+                <span>Sign In to Account</span>
+                <span>➔</span>
+              </button>
+            </form>
+
+            <!-- Quick Demo One-Click Login -->
+            <div class="quick-login-card">
+              <h5>⚡ Quick One-Click Login</h5>
+              <p>Sign in immediately as default customer (Aryan Rai - 8960025119)</p>
+              <button type="button" class="btn-quick-demo" onclick="quickDemoLogin()">
+                <span>👤 Sign In as Aryan Rai</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 2: REGISTER FORM -->
+          <div id="registerFormSection" style="display: none;">
+            <div class="auth-header">
+              <h2>Create Customer Profile</h2>
+              <p>Enter your username, photo, primary mobile & alternate contact number</p>
+            </div>
+
+            <form id="registerForm">
+              
+              <!-- Profile Image Upload / Picker -->
+              <div class="profile-image-section">
+                <div class="avatar-preview-wrap">
+                  <img id="regAvatarPreview" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=240&q=80" alt="Profile Preview" class="avatar-preview-img">
+                  <label for="regAvatarFile" class="avatar-edit-badge" title="Upload Photo">📷</label>
+                </div>
+                
+                <div class="avatar-upload-row">
+                  <label for="regAvatarFile" class="custom-file-btn">
+                    <span>📁 Upload Profile Photo</span>
+                  </label>
+                  <input type="file" id="regAvatarFile" class="hidden-file-input" accept="image/*">
+                  <span style="font-size:0.75rem; color:var(--text-muted);">Supports PNG, JPG, or WEBP (Max 5MB)</span>
+
+                  <span class="preset-avatars-label">Or Choose Preset Avatar:</span>
+                  <div class="preset-avatars-list">
+                    <button type="button" class="preset-avatar-btn" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=240&q=80', this)">🧑‍💼</button>
+                    <button type="button" class="preset-avatar-btn" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=240&q=80', this)">👩‍💼</button>
+                    <button type="button" class="preset-avatar-btn" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=240&q=80', this)">👨‍🦱</button>
+                    <button type="button" class="preset-avatar-btn" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=240&q=80', this)">👩‍🦰</button>
+                    <button type="button" class="preset-avatar-btn" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=240&q=80', this)">🧔</button>
+                    <button type="button" class="preset-avatar-btn" onclick="selectPresetAvatar('https://api.dicebear.com/7.x/bottts/svg?seed=grocery', this)">🤖</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Username -->
+              <div class="form-group">
+                <label class="form-label" for="regUsername">Username / Full Name *</label>
+                <div class="input-with-icon">
+                  <span class="input-icon">👤</span>
+                  <input type="text" id="regUsername" class="form-control" placeholder="e.g. Aryan Rai or rohan_99" required autocomplete="name">
+                </div>
+              </div>
+
+              <!-- Primary Mobile Number -->
+              <div class="form-group">
+                <label class="form-label" for="regMobileNo">
+                  Primary Mobile Number *
+                  <span class="sub-hint">(For order updates & delivery calls)</span>
+                </label>
+                <div class="input-with-icon">
+                  <span class="input-icon">📱</span>
+                  <input type="tel" id="regMobileNo" class="form-control" placeholder="10-digit mobile (e.g. 8960025119)" pattern="[0-9]{10}" maxlength="10" required autocomplete="tel">
+                </div>
+              </div>
+
+              <!-- Alternate Mobile Number -->
+              <div class="form-group">
+                <label class="form-label" for="regAlternateNo">
+                  Alternate Mobile Number (Alternamted No) *
+                  <span class="sub-hint">(Backup number if primary is busy/unreachable)</span>
+                </label>
+                <div class="input-with-icon">
+                  <span class="input-icon">📞</span>
+                  <input type="tel" id="regAlternateNo" class="form-control" placeholder="10-digit alternate mobile (e.g. 9876543210)" pattern="[0-9]{10}" maxlength="10" autocomplete="tel">
+                </div>
+              </div>
+
+              <!-- Default Address -->
+              <div class="form-group">
+                <label class="form-label" for="regAddress">
+                  Default Delivery Address
+                  <span class="sub-hint">(Pre-fills during checkout)</span>
+                </label>
+                <div class="input-with-icon">
+                  <span class="input-icon">📍</span>
+                  <input type="text" id="regAddress" class="form-control" placeholder="House No, Building, Street, Landmark">
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="form-group">
+                <label class="form-label" for="regPassword">Account Password or Security PIN</label>
+                <div class="input-with-icon">
+                  <span class="input-icon">🔒</span>
+                  <input type="password" id="regPassword" class="form-control" placeholder="Create password or 4-digit PIN" autocomplete="new-password">
+                </div>
+              </div>
+
+              <button type="submit" class="btn-submit" id="regSubmitBtn">
+                <span>✨ Create Account & Sign In</span>
+                <span>➔</span>
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast-popup" id="toastPopup" role="alert">
+    <span id="toastIcon">✨</span>
+    <span id="toastMessage">Action completed successfully</span>
+  </div>
+
+  <script>
+    /**
+     * =========================================================================
+     * AUTH STATE & LOGIC
+     * =========================================================================
+     */
+    let currentUser = null;
+    let selectedAvatarUrl = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=240&q=80';
+
+    // Theme Management
+    function initTheme() {
+      const savedTheme = localStorage.getItem('sjm_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcon(savedTheme);
+
+      document.getElementById('themeToggleBtn').addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('sjm_theme', next);
+        updateThemeIcon(next);
+      });
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('themeIcon');
+      if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    // Toast Message
+    function showToast(msg, icon = '✨') {
+      const toast = document.getElementById('toastPopup');
+      document.getElementById('toastMessage').textContent = msg;
+      document.getElementById('toastIcon').textContent = icon;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
+    // Tab Switcher
+    function switchAuthTab(tab) {
+      const tabLogin = document.getElementById('tabLoginBtn');
+      const tabReg = document.getElementById('tabRegisterBtn');
+      const secLogin = document.getElementById('loginFormSection');
+      const secReg = document.getElementById('registerFormSection');
+
+      if (tab === 'login') {
+        tabLogin.classList.add('active');
+        tabReg.classList.remove('active');
+        secLogin.style.display = 'block';
+        secReg.style.display = 'none';
+      } else {
+        tabLogin.classList.remove('active');
+        tabReg.classList.add('active');
+        secLogin.style.display = 'none';
+        secReg.style.display = 'block';
+      }
+    }
+
+    // Preset Avatar Selection
+    function selectPresetAvatar(url, btn) {
+      selectedAvatarUrl = url;
+      document.getElementById('regAvatarPreview').src = url;
+      document.querySelectorAll('.preset-avatar-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }
+
+    // Custom Photo Upload
+    const avatarInput = document.getElementById('regAvatarFile');
+    avatarInput.addEventListener('change', function(e) {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        showToast('Please select a valid image file (JPG, PNG, or WEBP)', '⚠️');
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('Image file must be under 5MB', '⚠️');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        // Compress / resize image using canvas to keep local storage lightweight
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxDim = 320;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const compressed = canvas.toDataURL('image/jpeg', 0.85);
+          selectedAvatarUrl = compressed;
+          document.getElementById('regAvatarPreview').src = compressed;
+          showToast('Profile image uploaded successfully!', '📷');
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Login Form Submit
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const identifier = document.getElementById('loginIdentifier').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const submitBtn = document.getElementById('loginSubmitBtn');
+
+      if (!identifier) {
+        showToast('Please enter your username or mobile number', '⚠️');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Verifying...</span>';
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ loginIdentifier: identifier, password: password })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          saveUserSession(data.user);
+          showToast(`Welcome back, ${data.user.username}!`, '🎉');
+          setTimeout(() => {
+            const redirect = new URLSearchParams(window.location.search).get('redirect') || '/';
+            window.location.href = redirect;
+          }, 900);
+        } else {
+          showToast(data.error || 'Login failed. Please check your credentials.', '⚠️');
+        }
+      } catch (err) {
+        console.warn('API error, attempting local fallback:', err);
+        // Local fallback verification
+        handleLocalLoginFallback(identifier);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Sign In to Account</span><span>➔</span>';
+      }
+    });
+
+    // Register Form Submit
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = document.getElementById('regUsername').value.trim();
+      const mobileNo = document.getElementById('regMobileNo').value.trim().replace(/\D/g, '');
+      const alternateNo = document.getElementById('regAlternateNo').value.trim().replace(/\D/g, '');
+      const address = document.getElementById('regAddress').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const submitBtn = document.getElementById('regSubmitBtn');
+
+      if (!username) {
+        showToast('Please enter a username', '⚠️');
+        return;
+      }
+
+      if (!mobileNo || mobileNo.length !== 10) {
+        showToast('Please enter a valid 10-digit primary mobile number', '⚠️');
+        return;
+      }
+
+      if (alternateNo && alternateNo.length !== 10) {
+        showToast('Alternate mobile number must be 10 digits', '⚠️');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Creating Account...</span>';
+
+      const payload = {
+        username: username,
+        mobileNo: mobileNo,
+        alternateNo: alternateNo,
+        profileImage: selectedAvatarUrl,
+        address: address,
+        password: password || 'password123'
+      };
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          saveUserSession(data.user);
+          showToast(`Account created for ${data.user.username}!`, '🎉');
+          setTimeout(() => {
+            const redirect = new URLSearchParams(window.location.search).get('redirect') || '/';
+            window.location.href = redirect;
+          }, 1000);
+        } else {
+          showToast(data.error || 'Could not register account.', '⚠️');
+        }
+      } catch (err) {
+        console.warn('API error, using local registration fallback:', err);
+        payload.id = 'USR-' + Math.floor(100 + Math.random() * 900);
+        saveUserSession(payload);
+        showToast(`Account created for ${payload.username}!`, '🎉');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>✨ Create Account & Sign In</span><span>➔</span>';
+      }
+    });
+
+    // Quick Demo Login
+    function quickDemoLogin() {
+      const demoUser = {
+        id: 'USR-844',
+        username: 'Aryan Rai',
+        mobileNo: '8960025119',
+        alternateNo: '9876543210',
+        profileImage: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=240&q=80',
+        address: 'Flat 402, Royal Palms, Sector 14, Main Market Road',
+        landmark: 'Near City Hospital & Axis Bank ATM'
+      };
+      saveUserSession(demoUser);
+      showToast('Logged in as Aryan Rai!', '👋');
+      setTimeout(() => {
+        const redirect = new URLSearchParams(window.location.search).get('redirect') || '/';
+        window.location.href = redirect;
+      }, 700);
+    }
+
+    function handleLocalLoginFallback(idInput) {
+      const clean = idInput.toLowerCase().trim();
+      if (clean === 'aryan rai' || clean === '8960025119') {
+        quickDemoLogin();
+      } else {
+        showToast('Account not found in local demo list. Please use Create Account or Quick Login', '⚠️');
+      }
+    }
+
+    function saveUserSession(user) {
+      currentUser = user;
+      localStorage.setItem('sjm_user', JSON.stringify(user));
+      // Also sync into checkout name and phone
+      localStorage.setItem('sjm_user_name', user.username || '');
+      localStorage.setItem('sjm_user_phone', user.mobileNo || '');
+      localStorage.setItem('sjm_user_alt_phone', user.alternateNo || '');
+      localStorage.setItem('sjm_user_address', user.address || '');
+    }
+
+    function logoutUser() {
+      currentUser = null;
+      localStorage.removeItem('sjm_user');
+      showToast('Logged out successfully', '👋');
+      setTimeout(() => {
+        checkUserSession();
+      }, 500);
+    }
+
+    function openEditMode() {
+      if (!currentUser) return;
+      switchAuthTab('register');
+      document.getElementById('alreadyLoggedInState').style.display = 'none';
+      document.getElementById('authFormsState').style.display = 'block';
+
+      // Pre-fill
+      document.getElementById('regUsername').value = currentUser.username || '';
+      document.getElementById('regMobileNo').value = currentUser.mobileNo || '';
+      document.getElementById('regAlternateNo').value = currentUser.alternateNo || '';
+      document.getElementById('regAddress').value = currentUser.address || '';
+      if (currentUser.profileImage) {
+        selectedAvatarUrl = currentUser.profileImage;
+        document.getElementById('regAvatarPreview').src = currentUser.profileImage;
+      }
+      document.getElementById('regSubmitBtn').innerHTML = '<span>💾 Save Profile Changes</span><span>➔</span>';
+    }
+
+    function checkUserSession() {
+      const stored = localStorage.getItem('sjm_user');
+      if (stored) {
+        try {
+          currentUser = JSON.parse(stored);
+        } catch (e) {
+          currentUser = null;
+        }
+      }
+
+      const loggedBox = document.getElementById('alreadyLoggedInState');
+      const formsBox = document.getElementById('authFormsState');
+
+      if (currentUser && currentUser.username) {
+        loggedBox.style.display = 'block';
+        formsBox.style.display = 'none';
+
+        document.getElementById('currentGreeting').textContent = `Welcome, ${currentUser.username}!`;
+        document.getElementById('infoUsername').textContent = currentUser.username;
+        document.getElementById('infoMobileNo').textContent = currentUser.mobileNo || 'Not set';
+        document.getElementById('infoAlternateNo').textContent = currentUser.alternateNo || 'Not provided';
+        document.getElementById('infoAddress').textContent = currentUser.address || 'Not specified';
+        
+        const avatar = document.getElementById('currentAvatarImg');
+        avatar.src = currentUser.profileImage || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=240&q=80';
+      } else {
+        loggedBox.style.display = 'none';
+        formsBox.style.display = 'block';
+      }
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      checkUserSession();
+    });
+  </script>
+</body>
+</html>

@@ -268,6 +268,53 @@
       align-items: center;
       justify-content: center;
       line-height: 1;
+      transform-origin: center center;
+      transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+      will-change: transform;
+    }
+
+    .cart-badge.cart-badge-bounce,
+    .cart-badge.cart-badge-add {
+      animation: badgeScaleAdd 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .cart-badge.cart-badge-remove {
+      animation: badgeScaleRemove 0.34s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes badgeScaleAdd {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.5);
+      }
+      40% {
+        transform: scale(1.42);
+        box-shadow: 0 0 10px 2px rgba(249, 115, 22, 0.6);
+      }
+      75% {
+        transform: scale(0.92);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: none;
+      }
+    }
+
+    @keyframes badgeScaleRemove {
+      0% {
+        transform: scale(1);
+      }
+      40% {
+        transform: scale(0.78);
+        background-color: var(--accent-hover);
+      }
+      75% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+        background-color: var(--accent);
+      }
     }
 
     .admin-pill-btn {
@@ -1751,6 +1798,329 @@
       color: var(--text-main);
     }
 
+    /* My Orders Section & Date Sorting Toggles */
+    .orders-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 0.9rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .orders-toolbar-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text-main);
+    }
+
+    .orders-count-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.72rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+
+    .orders-sort-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .orders-sort-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .orders-sort-toggles {
+      display: inline-flex;
+      background: var(--bg-surface);
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      gap: 2px;
+    }
+
+    .order-sort-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .order-sort-toggle-btn:hover {
+      color: var(--text-main);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    body.dark .order-sort-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .order-sort-toggle-btn.active {
+      color: #ffffff !important;
+      background: var(--primary) !important;
+      border-color: var(--primary) !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+      font-weight: 700;
+    }
+
+    .order-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.73rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Fulfillment Option Toggles & Store Pickup Components */
+    .fulfillment-selector-wrapper {
+      margin-bottom: 1.1rem;
+    }
+
+    .fulfillment-section-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.45rem;
+    }
+
+    .fulfillment-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+
+    @media (max-width: 480px) {
+      .fulfillment-tabs {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .fulfillment-tab-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.75rem 0.85rem;
+      background: var(--bg-surface);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .fulfillment-tab-btn:hover {
+      border-color: var(--primary-light);
+      background: var(--bg-surface-alt);
+    }
+
+    .fulfillment-tab-btn.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow: 0 2px 8px rgba(21, 128, 61, 0.12);
+    }
+
+    body.dark .fulfillment-tab-btn.active {
+      background: rgba(34, 197, 94, 0.12);
+      border-color: var(--primary);
+    }
+
+    .fulfillment-tab-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .fulfillment-tab-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      min-width: 0;
+    }
+
+    .fulfillment-tab-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .fulfillment-tab-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.25;
+    }
+
+    .fulfillment-tab-btn.active .fulfillment-tab-sub {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Store Pickup Info Card */
+    .store-pickup-info-card {
+      background: linear-gradient(135deg, rgba(21, 128, 61, 0.06), rgba(34, 197, 94, 0.02));
+      border: 1.5px solid rgba(21, 128, 61, 0.25);
+      border-radius: 10px;
+      padding: 0.9rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.82rem;
+    }
+
+    body.dark .store-pickup-info-card {
+      background: rgba(34, 197, 94, 0.06);
+      border-color: rgba(34, 197, 94, 0.25);
+    }
+
+    .store-pickup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px dashed rgba(21, 128, 61, 0.2);
+      padding-bottom: 0.45rem;
+    }
+
+    .store-pickup-badge {
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+    }
+
+    .store-pickup-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      line-height: 1.4;
+      color: var(--text-main);
+    }
+
+    .store-pickup-tip {
+      margin-top: 0.35rem;
+      padding: 0.4rem 0.6rem;
+      background: var(--bg-surface);
+      border-radius: 6px;
+      border-left: 3px solid var(--accent);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Cart drawer fulfillment toggle */
+    .cart-fulfillment-box {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.65rem 0.8rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .cart-fulfillment-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.45rem;
+    }
+
+    .cart-fulfillment-hint {
+      font-size: 0.72rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .cart-fulfillment-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem;
+    }
+
+    .cart-fulfillment-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.4rem 0.5rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .cart-fulfillment-btn:hover {
+      background: var(--primary-light);
+      color: var(--text-main);
+    }
+
+    .cart-fulfillment-btn.active {
+      background: var(--primary) !important;
+      color: #ffffff !important;
+      border-color: var(--primary) !important;
+      font-weight: 700;
+      box-shadow: 0 2px 5px rgba(21, 128, 61, 0.2);
+    }
+
+    /* Order Type Badge */
+    .order-type-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .order-type-chip.pickup {
+      background: rgba(14, 165, 233, 0.12);
+      color: #0369a1;
+      border: 1px solid rgba(14, 165, 233, 0.3);
+    }
+
+    .order-type-chip.delivery {
+      background: rgba(21, 128, 61, 0.1);
+      color: #15803d;
+      border: 1px solid rgba(21, 128, 61, 0.25);
+    }
+
     /* WhatsApp floating pill */
     .whatsapp-floating-btn {
       position: fixed;
@@ -2118,15 +2488,218 @@
         display: none !important;
       }
     }
+
+    /* =========================================================
+       USER ACCOUNT BUTTON & PROFILE / LOGIN MODALS
+       ========================================================= */
+    .user-account-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 9999px;
+      background: var(--bg-surface-alt);
+      border: 1.5px solid var(--border);
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .user-account-btn:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    .header-avatar-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1.5px solid var(--primary);
+    }
+
+    .header-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .header-user-label {
+      max-width: 110px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Profile Modal Styling */
+    .profile-card-top {
+      text-align: center;
+      padding: 1.5rem 1rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-surface-alt);
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    .profile-photo-container {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 0.75rem;
+    }
+
+    .profile-photo-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3.5px solid var(--primary);
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .profile-photo-edit-btn {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      border: 2px solid var(--bg-surface);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-name-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.2rem;
+    }
+
+    .profile-badge-pill {
+      display: inline-block;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    .profile-info-grid {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .profile-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .profile-info-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .profile-info-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--bg-surface-alt);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .profile-info-text {
+      flex: 1;
+    }
+
+    .profile-info-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .profile-info-value {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 1px;
+    }
+
+    .profile-info-sub {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    /* Preset Avatar Selector */
+    .avatar-chips-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .avatar-chip-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--bg-surface-alt);
+      font-size: 1.15rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+    }
+    .avatar-chip-btn:hover, .avatar-chip-btn.active {
+      transform: scale(1.15);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-light);
+    }
   </style>
 </head>
 <body>
 
   <!-- Top bar announcement -->
   <aside class="top-announcement" aria-label="Announcement">
-    <div class="container" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
-      <span>🎉 Welcome to <strong>TRIPATHI STORE</strong> • Order online or call <strong>+91 8960025119</strong>!</span>
-      <span>Use code <strong style="background:rgba(255,255,255,0.25); padding:1px 6px; border-radius:4px;">FRESH10</strong> for 10% OFF</span>
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:0.4rem;">
+      <span>🎉 <strong>TRIPATHI STORE</strong> • ⚡ Order on Web & <strong>Pick Up In-Store</strong> (15 Mins) or Fast Doorstep Delivery!</span>
+      <div style="display:flex; align-items:center; gap:0.6rem;">
+        <span style="font-size:0.75rem; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:12px; font-weight:700;">🏪 Store Pickup: 0 Delivery Fee</span>
+        <span>Code: <strong style="background:rgba(255,255,255,0.25); padding:1px 6px; border-radius:4px;">FRESH10</strong></span>
+      </div>
     </div>
   </aside>
 
@@ -2149,17 +2722,28 @@
           <input type="text" id="searchInput" placeholder="Search vegetables, milk, atta, rice, snacks..." aria-label="Search products">
         </div>
 
-        <!-- Actions: Track, Theme, Dashboard, Cart -->
+        <!-- Actions: Track, Theme, Dashboard, Cart, User Profile -->
         <div class="header-actions">
+          <button class="user-account-btn" id="headerUserBtn" onclick="openUserAuthOrProfile()" title="Sign In or View Customer Profile" aria-label="Customer Profile">
+            <span class="header-avatar-circle" id="headerUserAvatar">👤</span>
+            <span class="header-user-label" id="headerUserName">Sign In</span>
+          </button>
           <a href="#track-order-section" class="icon-btn" title="Track Order Status" style="text-decoration:none;">
             <span>📦 Track</span>
           </a>
+          <button class="icon-btn" id="openMyOrdersBtn" onclick="openMyOrdersDashboard()" title="View My Orders History & Status" aria-label="My Orders">
+            <span>📋 Orders</span>
+          </button>
           <button class="icon-btn" onclick="openLatestBill()" title="View / Generate Bill" aria-label="Generate Bill">
             <span>🧾 Bill</span>
           </button>
           <button class="icon-btn" id="themeToggleBtn" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
             <span id="themeIcon">🌙</span>
           </button>
+          <a href="/owner.html" class="icon-btn owner-portal-btn" target="_blank" title="Open Dedicated Owner Order Database & Delivery Dispatch Portal" style="text-decoration:none; display:inline-flex; align-items:center; gap:0.35rem; font-weight:700; background:var(--accent-light); color:var(--accent-hover); border:1px solid rgba(249,115,22,0.3); padding:0.4rem 0.75rem; border-radius:8px;">
+            <span>🚚 Owner Portal</span>
+            <span style="background:var(--accent); color:#fff; font-size:0.65rem; padding:1px 5px; border-radius:4px; font-weight:800;">DB Live</span>
+          </a>
           <button class="icon-btn admin-pill-btn" id="openDashboardBtn" title="Shop Owner Demo Dashboard">
             <span>⚙️ Dashboard</span>
           </button>
@@ -2173,10 +2757,14 @@
       <!-- Quick Nav -->
       <nav class="quick-nav" aria-label="Main Navigation">
         <ul class="quick-nav-list">
+          <li><a href="javascript:void(0)" onclick="openUserAuthOrProfile()" id="quickNavAccountLink" style="color:var(--primary); font-weight:800; display:inline-flex; align-items:center; gap:4px; background:var(--primary-light); padding:2px 8px; border-radius:6px;">👤 Sign In / Profile</a></li>
           <li><a href="#products-section">All Products</a></li>
           <li><a href="#deals-section" class="highlight-tag">🔥 Today's Deals</a></li>
+          <li><a href="javascript:void(0)" onclick="quickSelectStorePickup()" style="color:var(--accent); font-weight:700;">🏪 Store Pickup (15 Min)</a></li>
+          <li><a href="/owner.html" target="_blank" style="color:var(--accent); font-weight:800; background:var(--accent-light); padding:3px 8px; border-radius:6px; display:inline-flex; align-items:center; gap:3px;">🚚 Owner Delivery Portal ↗</a></li>
           <li><a href="#track-order-section" class="highlight-track" style="color:var(--primary); font-weight:700;">📦 Track Order</a></li>
-          <li><a href="javascript:void(0)" onclick="openLatestBill()" style="color:var(--primary); font-weight:700;">🧾 Generate Bill</a></li>
+          <li><a href="javascript:void(0)" onclick="openMyOrdersDashboard()" style="color:var(--primary); font-weight:700;">📋 My Orders</a></li>
+          <li><a href="javascript:void(0)" onclick="openLatestBill()" style="color:var(--text-main); font-weight:600;">🧾 Generate Bill</a></li>
           <li><a href="#benefits-section">Why Choose Us</a></li>
           <li><a href="#reviews-section">Reviews</a></li>
           <li><a href="#faq-section">FAQ</a></li>
@@ -2194,12 +2782,12 @@
       <section class="hero-section" id="hero-banner">
         <div class="hero-banner">
           <div class="hero-content">
-            <div class="hero-badge">⚡ 30-Minute Neighborhood Delivery</div>
+            <div class="hero-badge">⚡ 30-Min Delivery OR 15-Min Express Store Pickup</div>
             <h2>Fresh Groceries at Wholesale Rates</h2>
-            <p>Handpicked fresh farm produce, pure dairy, pantry staples, and FMCG brands delivered straight to your doorstep in minutes.</p>
+            <p>Order fresh farm produce, pure dairy, and staples on our website. Choose fast home delivery or pick up pre-packed bags directly from our store counter with zero waiting!</p>
             <div class="hero-buttons">
               <a href="#products-section" class="btn btn-primary" id="heroShopNowBtn">🛍️ Shop Now</a>
-              <a href="#deals-section" class="btn btn-accent" id="heroDealsBtn">🏷️ Today's Deals</a>
+              <button class="btn btn-accent" onclick="quickSelectStorePickup()">🏪 Pick Up from Store</button>
               <button class="btn btn-outline-white" id="heroWhatsAppBtn">📱 Order on WhatsApp</button>
             </div>
           </div>
@@ -2217,22 +2805,22 @@
           <div class="benefit-card">
             <div class="benefit-icon">🌿</div>
             <div class="benefit-info">
-              <h4>Fresh Products</h4>
+              <h4>Fresh Farm Produce</h4>
               <p>Handpicked daily from local certified farms</p>
+            </div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🏪</div>
+            <div class="benefit-info">
+              <h4>In-Store Pickup</h4>
+              <p>Order online, ready in 15 mins with 0 delivery charge</p>
             </div>
           </div>
           <div class="benefit-card">
             <div class="benefit-icon">🚀</div>
             <div class="benefit-info">
-              <h4>Fast Delivery</h4>
-              <p>Under 30 mins local doorstep dispatch</p>
-            </div>
-          </div>
-          <div class="benefit-card">
-            <div class="benefit-icon">💬</div>
-            <div class="benefit-info">
-              <h4>Easy Ordering</h4>
-              <p>Order in 2 clicks on Web or via WhatsApp</p>
+              <h4>Doorstep Delivery</h4>
+              <p>Under 30 mins neighborhood delivery</p>
             </div>
           </div>
           <div class="benefit-card">
@@ -2398,6 +2986,15 @@
           </div>
           <div class="faq-item">
             <button class="faq-question">
+              <span>Can I order from the website and pick up from the store?</span>
+              <span class="faq-toggle-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              Yes, absolutely! Select <strong>🏪 Store Pickup</strong> at checkout. It is completely FREE with zero delivery charge. Our store team pre-packs your grocery items in a bag within 15–20 minutes so you can skip the queue, pay at the counter by Cash or UPI, and pick up without any delay!
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">
               <span>Is there a delivery charge?</span>
               <span class="faq-toggle-icon">+</span>
             </button>
@@ -2448,6 +3045,13 @@
           <div class="info-item">
             <h4>🛡️ Local Store Promise</h4>
             <p>100% replacement guarantee if you are not completely satisfied with the freshness of any item.</p>
+          </div>
+          <div class="info-item" style="border: 1.5px solid var(--accent); background: var(--accent-light); border-radius: 12px; padding: 1rem;">
+            <h4 style="color:var(--accent-hover); display:flex; align-items:center; gap:0.4rem;">🚚 Store Owner & Delivery Portal</h4>
+            <p style="font-size:0.85rem; color:var(--text-main); margin-bottom:0.6rem;">Dedicated database website for the shop owner to view all customer orders with complete addresses, mobile phone numbers, and delivery dispatch routes.</p>
+            <a href="/owner.html" target="_blank" class="btn btn-accent" style="font-size:0.82rem; text-decoration:none; display:inline-flex; align-items:center; gap:0.4rem;">
+              <span>Open Owner Delivery Portal ↗</span>
+            </a>
           </div>
         </div>
       </section>
@@ -2530,6 +3134,22 @@
           <button id="applyCouponBtn">Apply</button>
         </div>
 
+        <!-- Fulfillment Mode Toggle in Cart -->
+        <div class="cart-fulfillment-box">
+          <div class="cart-fulfillment-label">
+            <span>Fulfillment Mode:</span>
+            <span class="cart-fulfillment-hint" id="cartFulfillmentHint">Free pickup at store</span>
+          </div>
+          <div class="cart-fulfillment-tabs" role="group" aria-label="Fulfillment method selection">
+            <button type="button" class="cart-fulfillment-btn active" id="cartFulfillmentDeliveryBtn" onclick="setCartFulfillment('delivery')">
+              <span>🛵 Home Delivery</span>
+            </button>
+            <button type="button" class="cart-fulfillment-btn" id="cartFulfillmentPickupBtn" onclick="setCartFulfillment('pickup')">
+              <span>🏪 Store Pickup (FREE)</span>
+            </button>
+          </div>
+        </div>
+
         <!-- Bill breakdown -->
         <div class="cart-summary-line">
           <span>Subtotal</span>
@@ -2569,10 +3189,43 @@
   <div class="modal-overlay" id="checkoutOverlay">
     <div class="modal-card" role="dialog" aria-modal="true" aria-label="Checkout">
       <div class="modal-header">
-        <h3>📦 Confirm Delivery Details</h3>
+        <h3 id="checkoutModalTitle">📦 Choose Order Type & Details</h3>
         <button class="close-modal-btn" id="closeCheckoutBtn">&times;</button>
       </div>
       <form id="checkoutForm">
+        <!-- Fulfillment Mode Switcher Tabs -->
+        <div class="fulfillment-selector-wrapper">
+          <label class="fulfillment-section-label">Select How You Want Your Order:</label>
+          <div class="fulfillment-tabs" role="radiogroup" aria-label="Order Fulfillment Method">
+            <button type="button" class="fulfillment-tab-btn active" id="checkoutDeliveryBtn" onclick="setCheckoutFulfillment('delivery')" role="radio" aria-checked="true">
+              <span class="fulfillment-tab-icon">🛵</span>
+              <div class="fulfillment-tab-text">
+                <span class="fulfillment-tab-title">Home Delivery</span>
+                <span class="fulfillment-tab-sub">Doorstep delivery (~30 mins)</span>
+              </div>
+            </button>
+            <button type="button" class="fulfillment-tab-btn" id="checkoutPickupBtn" onclick="setCheckoutFulfillment('pickup')" role="radio" aria-checked="false">
+              <span class="fulfillment-tab-icon">🏪</span>
+              <div class="fulfillment-tab-text">
+                <span class="fulfillment-tab-title">Store Pickup</span>
+                <span class="fulfillment-tab-sub">100% FREE • Ready in 15 mins</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Logged in Customer Banner (Auto-fills checkout) -->
+        <div id="checkoutUserBanner" style="display:none; background:var(--primary-light); border:1px solid rgba(21,128,61,0.25); border-radius:8px; padding:0.6rem 0.8rem; margin-bottom:0.9rem; align-items:center; justify-content:space-between; gap:0.5rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <img id="checkoutUserImg" src="" alt="Avatar" style="width:32px; height:32px; border-radius:50%; object-fit:cover; border:1.5px solid var(--primary);">
+            <div>
+              <div style="font-size:0.82rem; font-weight:800; color:var(--primary-dark);" id="checkoutUserGreet">Logged in</div>
+              <div style="font-size:0.72rem; color:var(--text-muted);">Details auto-filled from your profile</div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm" onclick="openUserAuthOrProfile()" style="font-size:0.72rem; padding:2px 8px; background:var(--bg-surface); border:1px solid var(--border); border-radius:4px; font-weight:700;">Edit Profile</button>
+        </div>
+
         <div class="form-group">
           <label for="custName">Customer Full Name *</label>
           <input type="text" id="custName" class="form-control" placeholder="e.g. Rajesh Kumar" required>
@@ -2580,33 +3233,95 @@
         <div class="form-group">
           <label for="custPhone">Mobile Number (WhatsApp) *</label>
           <input type="tel" id="custPhone" class="form-control" placeholder="e.g. 9876543210" pattern="[0-9]{10}" required>
+          <small style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:2px;">We'll send order updates & pickup notification on this number</small>
         </div>
         <div class="form-group">
-          <label for="custAddress">Complete Street Address / House No. *</label>
-          <textarea id="custAddress" class="form-control" rows="2" placeholder="House/Flat No., Building Name, Street" required></textarea>
+          <label for="custAltPhone">
+            Alternate Mobile Number (Optional)
+            <span style="font-size:0.75rem; font-weight:normal; color:var(--text-muted);">(Alternamted No)</span>
+          </label>
+          <input type="tel" id="custAltPhone" class="form-control" placeholder="e.g. 8960025119 (Backup delivery contact)" pattern="[0-9]{10}" maxlength="10">
+          <small style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:2px;">Backup contact for delivery rider if primary phone is busy or unreachable</small>
         </div>
-        <div class="form-group">
-          <label for="custLandmark">Nearby Landmark</label>
-          <input type="text" id="custLandmark" class="form-control" placeholder="e.g. Near Shiv Mandir / Water Tank">
+
+        <!-- Home Delivery Specific Fields -->
+        <div id="deliveryFieldsGroup">
+          <div class="form-group">
+            <label for="custAddress">Complete Street Address / House No. *</label>
+            <textarea id="custAddress" class="form-control" rows="2" placeholder="House/Flat No., Building Name, Street"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="custLandmark">Nearby Landmark</label>
+            <input type="text" id="custLandmark" class="form-control" placeholder="e.g. Near Shiv Mandir / Water Tank">
+          </div>
+        </div>
+
+        <!-- Store Pickup Specific Card & Options -->
+        <div id="pickupFieldsGroup" style="display:none;">
+          <div class="store-pickup-info-card">
+            <div class="store-pickup-header">
+              <div style="display:flex; align-items:center; gap:0.4rem;">
+                <span style="font-size:1.3rem;">🏪</span>
+                <div>
+                  <strong style="color:var(--text-main); font-size:0.88rem;">Tripathi Store Quick Counter</strong>
+                  <div style="font-size:0.72rem; color:var(--text-muted);">Main Market Road, Near Gandhi Chowk</div>
+                </div>
+              </div>
+              <span class="store-pickup-badge">⚡ 15-Min Fast Lane</span>
+            </div>
+            <div class="store-pickup-meta">
+              <div>🕒 <strong>Store Timings:</strong> 7:00 AM – 10:00 PM (Daily)</div>
+              <div>📞 <strong>Pickup Helpline:</strong> +91 8960025119</div>
+              <div>💵 <strong>Zero Delivery Fee:</strong> Pay ₹0 extra when picking up in-store</div>
+              <div class="store-pickup-tip">
+                🛒 <strong>How it works:</strong> We pre-pack and seal your items. Simply show your Order ID at our express counter, pay via cash or UPI, and collect!
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="custPickupTime">Preferred Pickup Time Slot *</label>
+            <select id="custPickupTime" class="form-control" style="font-weight:600; cursor:pointer;">
+              <option value="⚡ ASAP - Ready in 15-20 Mins">⚡ ASAP - Ready in ~15 to 20 mins</option>
+              <option value="🕒 Within 1 Hour">🕒 Within 1 hour</option>
+              <option value="🕒 Today Afternoon (1:00 PM - 3:00 PM)">🕒 Today Afternoon (1:00 PM - 3:00 PM)</option>
+              <option value="🕒 Today Evening (5:00 PM - 7:30 PM)">🕒 Today Evening (5:00 PM - 7:30 PM)</option>
+              <option value="🌙 Today Night (7:30 PM - 9:30 PM)">🌙 Today Night (7:30 PM - 9:30 PM)</option>
+              <option value="☀️ Tomorrow Morning (8:00 AM - 11:00 AM)">☀️ Tomorrow Morning (8:00 AM - 11:00 AM)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="custPickupNote">Special Instructions for Store Staff (Optional)</label>
+            <input type="text" id="custPickupNote" class="form-control" placeholder="e.g. Keep milk cold / pack in sturdy cloth bag">
+          </div>
         </div>
 
         <!-- Checkout summary preview -->
         <div style="background:var(--bg-surface-alt); border-radius:10px; padding:0.9rem; margin-bottom:1.2rem; font-size:0.85rem;">
           <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+            <span>Order Method:</span>
+            <strong id="checkoutMethodDisplay" style="color:var(--primary);">🛵 Home Delivery</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
             <span>Items Selected:</span>
             <span id="checkoutItemCount" style="font-weight:700;">0 items</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+            <span>Delivery Fee:</span>
+            <span id="checkoutDeliveryFee" style="font-weight:700; color:#15803d;">₹0</span>
           </div>
           <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
             <span>Total Bill:</span>
             <span id="checkoutTotalAmount" style="font-weight:800; color:var(--primary); font-size:1.05rem;">₹0</span>
           </div>
-          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem;">
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem;" id="checkoutPaymentHint">
             💵 Payment Mode: <strong>Cash on Delivery (COD) / QR UPI on Arrival</strong>
           </div>
         </div>
 
         <div style="display:flex; gap:0.6rem;">
-          <button type="submit" class="btn btn-accent" style="flex:1;">
+          <button type="submit" class="btn btn-accent" style="flex:1;" id="submitOrderBtn">
             ✅ Place Order (COD)
           </button>
           <button type="button" class="btn" style="background:#25d366; color:#fff;" id="checkoutWithWhatsAppBtn" title="Send order via WhatsApp to 8960025119">
@@ -2636,14 +3351,18 @@
           <strong id="confirmedCustomer">-</strong>
         </div>
         <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem;">
-          <span>Delivery To:</span>
+          <span>Order Type:</span>
+          <strong id="confirmedFulfillmentType" style="color:var(--primary);">-</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:0.4rem;">
+          <span id="confirmedDestLabel">Delivery Address:</span>
           <span id="confirmedAddress" style="text-align:right; max-width:220px;">-</span>
         </div>
         <div style="display:flex; justify-content:space-between; border-top:1px solid var(--border); padding-top:0.4rem; margin-top:0.4rem;">
           <span>Total Amount:</span>
           <strong id="confirmedAmount" style="color:var(--primary); font-size:1rem;">₹0</strong>
         </div>
-        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.5rem; text-align:center;">
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.5rem; text-align:center;" id="confirmedInstructions">
           ⏱️ Store Contact: <strong>+91 8960025119</strong> • Estimated Dispatch: <strong>20 - 30 mins</strong>
         </div>
       </div>
@@ -2690,6 +3409,243 @@
   </div>
 
   <!-- =========================================================
+       USER PROFILE MODAL (VIEW & EDIT)
+       ========================================================= -->
+  <div class="modal-overlay" id="userProfileOverlay" role="dialog" aria-modal="true" aria-label="Customer Profile">
+    <div class="modal-card" style="max-width:480px; padding:0; overflow:hidden;">
+      <div class="modal-header" style="padding:1rem 1.25rem; border-bottom:1px solid var(--border);">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <span style="font-size:1.2rem;">👤</span>
+          <h3 style="margin:0; font-size:1.15rem;">Customer Account</h3>
+        </div>
+        <button type="button" class="close-modal-btn" id="closeProfileModalBtn" aria-label="Close profile">&times;</button>
+      </div>
+
+      <!-- VIEW MODE -->
+      <div id="profileViewMode">
+        <div class="profile-card-top">
+          <div class="profile-photo-container">
+            <img id="profileViewImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Profile" class="profile-photo-img">
+            <button type="button" class="profile-photo-edit-btn" onclick="toggleProfileEdit(true)" title="Change Profile Image">📷</button>
+          </div>
+          <h4 class="profile-name-title" id="profileViewName">Aryan Rai</h4>
+          <span class="profile-badge-pill">✅ Verified Shopper</span>
+        </div>
+
+        <div class="profile-info-grid">
+          <!-- Mobile Number -->
+          <div class="profile-info-item">
+            <div class="profile-info-icon">📱</div>
+            <div class="profile-info-text">
+              <div class="profile-info-label">Primary Mobile Number</div>
+              <div class="profile-info-value" id="profileViewPhone">+91 8960025119</div>
+              <div class="profile-info-sub">Used for order tracking, OTP & delivery coordination</div>
+            </div>
+            <a id="profileCallPrimary" href="tel:8960025119" class="btn btn-sm btn-secondary" style="font-size:0.75rem; padding:3px 8px;" title="Call">📞 Call</a>
+          </div>
+
+          <!-- Alternate Mobile Number -->
+          <div class="profile-info-item">
+            <div class="profile-info-icon" style="background:rgba(249,115,22,0.12); color:var(--accent);">📞</div>
+            <div class="profile-info-text">
+              <div class="profile-info-label" style="color:var(--accent);">Alternate Mobile No (Alternamted No)</div>
+              <div class="profile-info-value" id="profileViewAltPhone" style="color:var(--text-main);">+91 9876543210</div>
+              <div class="profile-info-sub">Backup contact for delivery rider if primary mobile is busy</div>
+            </div>
+            <a id="profileCallAlt" href="tel:9876543210" class="btn btn-sm" style="background:var(--accent-light); color:var(--accent-hover); font-size:0.75rem; padding:3px 8px; text-decoration:none; font-weight:700;" title="Call Alternate">📞 Call</a>
+          </div>
+
+          <!-- Address -->
+          <div class="profile-info-item">
+            <div class="profile-info-icon">📍</div>
+            <div class="profile-info-text">
+              <div class="profile-info-label">Saved Delivery Address</div>
+              <div class="profile-info-value" id="profileViewAddress" style="font-weight:500; font-size:0.86rem; line-height:1.4;">Flat 402, Shivam Enclave, Gandhi Road</div>
+              <div class="profile-info-sub">Default address for 1-click doorstep delivery</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:1rem 1.25rem; background:var(--bg-surface-alt); border-top:1px solid var(--border); display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button type="button" class="btn btn-primary" style="flex:1;" onclick="toggleProfileEdit(true)">
+            ✏️ Edit Profile
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="openMyOrdersDashboard(); closeProfileModal();">
+            📋 My Orders
+          </button>
+          <button type="button" class="btn" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5;" onclick="handleUserSignOut()">
+            🚪 Sign Out
+          </button>
+        </div>
+      </div>
+
+      <!-- EDIT MODE -->
+      <form id="profileEditMode" style="display:none; padding:1.25rem;" onsubmit="saveProfileChanges(event)">
+        <div style="text-align:center; margin-bottom:1.25rem;">
+          <div class="profile-photo-container">
+            <img id="profileEditImgPreview" src="" alt="Profile Preview" class="profile-photo-img">
+            <label for="profileEditPhotoFile" class="profile-photo-edit-btn" style="cursor:pointer;" title="Upload new photo">📷</label>
+            <input type="file" id="profileEditPhotoFile" accept="image/*" style="display:none;" onchange="handleProfilePhotoUpload(event)">
+          </div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">Click camera icon to upload custom photo or pick an avatar below:</div>
+          <div class="avatar-chips-row" style="justify-content:center;">
+            <button type="button" class="avatar-chip-btn" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80')" title="Aryan Rai">🧔</button>
+            <button type="button" class="avatar-chip-btn" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80')" title="Gentleman">👨</button>
+            <button type="button" class="avatar-chip-btn" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80')" title="Lady">👩</button>
+            <button type="button" class="avatar-chip-btn" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=200&auto=format&fit=crop&q=80')" title="Customer">🧑</button>
+            <button type="button" class="avatar-chip-btn" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&auto=format&fit=crop&q=80')" title="Shopper">👱‍♀️</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="editProfileUsername">Customer Full Name / Username *</label>
+          <input type="text" id="editProfileUsername" class="form-control" required placeholder="e.g. Aryan Rai">
+        </div>
+
+        <div class="form-group">
+          <label for="editProfileMobile">Primary Mobile Number (10 digits) *</label>
+          <input type="tel" id="editProfileMobile" class="form-control" pattern="[0-9]{10}" maxlength="10" required placeholder="e.g. 8960025119">
+          <small style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:2px;">Primary contact for WhatsApp order dispatch & delivery updates</small>
+        </div>
+
+        <div class="form-group">
+          <label for="editProfileAltMobile">
+            Alternate Mobile Number (Alternamted No)
+            <span style="font-size:0.75rem; font-weight:normal; color:var(--accent); font-weight:700;">★ Backup Phone</span>
+          </label>
+          <input type="tel" id="editProfileAltMobile" class="form-control" pattern="[0-9]{10}" maxlength="10" placeholder="e.g. 9876543210 (Backup number)">
+          <small style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:2px;">Rider will call this number if primary phone is busy, switched off, or no answer</small>
+        </div>
+
+        <div class="form-group">
+          <label for="editProfileAddress">Default Delivery Address *</label>
+          <textarea id="editProfileAddress" class="form-control" rows="2" placeholder="House/Flat No, Street, Colony, Landmark"></textarea>
+        </div>
+
+        <div style="display:flex; gap:0.5rem; margin-top:1.25rem;">
+          <button type="submit" class="btn btn-accent" style="flex:1;">
+            💾 Save Profile
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="toggleProfileEdit(false)">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       USER AUTH MODAL (SIGN IN / REGISTER TABS)
+       ========================================================= -->
+  <div class="modal-overlay" id="userAuthOverlay" role="dialog" aria-modal="true" aria-label="Sign In or Register">
+    <div class="modal-card" style="max-width:440px; padding:0; overflow:hidden;">
+      <div class="modal-header" style="padding:1rem 1.25rem; border-bottom:1px solid var(--border);">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <span style="font-size:1.2rem;">🛒</span>
+          <h3 style="margin:0; font-size:1.15rem;" id="authModalTitle">Welcome to Tripathi Store</h3>
+        </div>
+        <button type="button" class="close-modal-btn" id="closeAuthModalBtn" aria-label="Close login">&times;</button>
+      </div>
+
+      <!-- Auth Tabs: Sign In / Create Account -->
+      <div style="display:flex; border-bottom:1px solid var(--border); background:var(--bg-surface-alt);">
+        <button type="button" id="tabBtnSignIn" onclick="switchAuthTab('signin')" style="flex:1; padding:0.75rem; border:none; background:transparent; font-weight:700; font-size:0.88rem; cursor:pointer; border-bottom:2.5px solid var(--primary); color:var(--primary);">
+          Sign In
+        </button>
+        <button type="button" id="tabBtnRegister" onclick="switchAuthTab('register')" style="flex:1; padding:0.75rem; border:none; background:transparent; font-weight:600; font-size:0.88rem; cursor:pointer; border-bottom:2.5px solid transparent; color:var(--text-muted);">
+          Create Account
+        </button>
+      </div>
+
+      <!-- TAB 1: SIGN IN -->
+      <div id="authPanelSignIn" style="padding:1.25rem;">
+        <form onsubmit="handleAuthSignIn(event)">
+          <div class="form-group">
+            <label for="authLoginIdentifier">Username or Mobile Number *</label>
+            <input type="text" id="authLoginIdentifier" class="form-control" placeholder="e.g. Aryan Rai or 8960025119" required>
+          </div>
+          <div class="form-group">
+            <label for="authLoginPassword">Password / PIN *</label>
+            <input type="password" id="authLoginPassword" class="form-control" placeholder="Enter your password" required>
+            <small style="font-size:0.72rem; color:var(--text-muted); display:block; margin-top:2px;">Default demo password: <strong>123456</strong></small>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; margin-top:0.75rem;">
+            🔐 Sign In to My Account
+          </button>
+        </form>
+
+        <div style="text-align:center; margin:1rem 0; position:relative;">
+          <div style="height:1px; background:var(--border); width:100%;"></div>
+          <span style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--bg-surface); padding:0 10px; font-size:0.75rem; color:var(--text-muted); font-weight:700;">OR QUICK DEMO</span>
+        </div>
+
+        <!-- 1-Click Quick Demo Login -->
+        <button type="button" class="btn" style="width:100%; background:var(--accent-light); color:var(--accent-hover); border:1px solid rgba(249,115,22,0.3); font-weight:800; font-size:0.85rem;" onclick="quickLoginDemoUser()">
+          ⚡ Quick 1-Click Login as Aryan Rai (+91 8960025119)
+        </button>
+
+        <div style="margin-top:1rem; text-align:center; font-size:0.82rem;">
+          <a href="/login.html" style="color:var(--primary); font-weight:700; text-decoration:underline;">Open Dedicated Full-Screen Login Page ↗</a>
+        </div>
+      </div>
+
+      <!-- TAB 2: REGISTER -->
+      <div id="authPanelRegister" style="display:none; padding:1.25rem;">
+        <form onsubmit="handleAuthRegister(event)">
+          <!-- Profile Photo Selector -->
+          <div style="text-align:center; margin-bottom:1rem;">
+            <div class="profile-photo-container" style="width:74px; height:74px;">
+              <img id="authRegImgPreview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Preview" class="profile-photo-img">
+              <label for="authRegPhotoFile" class="profile-photo-edit-btn" style="width:26px; height:26px; font-size:0.75rem; cursor:pointer;" title="Upload photo">📷</label>
+              <input type="file" id="authRegPhotoFile" accept="image/*" style="display:none;" onchange="handleRegisterPhotoUpload(event)">
+            </div>
+            <div style="font-size:0.72rem; color:var(--text-muted);">Choose profile avatar or upload photo</div>
+            <div class="avatar-chips-row" style="justify-content:center;">
+              <button type="button" class="avatar-chip-btn" onclick="selectRegisterPresetAvatar('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80')">🧔</button>
+              <button type="button" class="avatar-chip-btn" onclick="selectRegisterPresetAvatar('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80')">👨</button>
+              <button type="button" class="avatar-chip-btn" onclick="selectRegisterPresetAvatar('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80')">👩</button>
+              <button type="button" class="avatar-chip-btn" onclick="selectRegisterPresetAvatar('https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=200&auto=format&fit=crop&q=80')">🧑</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="regUsername">Username / Full Name *</label>
+            <input type="text" id="regUsername" class="form-control" placeholder="e.g. Aryan Rai" required>
+          </div>
+
+          <div class="form-group">
+            <label for="regMobile">Mobile Number *</label>
+            <input type="tel" id="regMobile" class="form-control" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit number (e.g. 8960025119)" required>
+          </div>
+
+          <div class="form-group">
+            <label for="regAltMobile">
+              Alternate Mobile Number (Alternamted No)
+              <span style="font-size:0.75rem; color:var(--accent); font-weight:700;">★ Backup Contact</span>
+            </label>
+            <input type="tel" id="regAltMobile" class="form-control" pattern="[0-9]{10}" maxlength="10" placeholder="e.g. 9876543210 (Optional backup)">
+            <small style="font-size:0.72rem; color:var(--text-muted); display:block; margin-top:2px;">Backup number for delivery partner</small>
+          </div>
+
+          <div class="form-group">
+            <label for="regAddress">Delivery Address</label>
+            <textarea id="regAddress" class="form-control" rows="2" placeholder="House/Flat No., Street, City"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="regPassword">Password *</label>
+            <input type="password" id="regPassword" class="form-control" placeholder="Create a secure password" required>
+          </div>
+
+          <button type="submit" class="btn btn-accent" style="width:100%; margin-top:0.75rem;">
+            ✨ Create Account & Sign In
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
        SHOP OWNER DASHBOARD (FRONTEND DEMO)
        ========================================================= -->
   <div class="modal-overlay" id="dashboardOverlay">
@@ -2725,7 +3681,7 @@
       <!-- Dashboard Tabs -->
       <div class="d-tabs">
         <button class="d-tab-btn active" data-tab="tab-inventory">📦 Inventory & Stock</button>
-        <button class="d-tab-btn" data-tab="tab-orders">📋 Recent Orders</button>
+        <button class="d-tab-btn" data-tab="tab-orders" id="myOrdersTabBtn">📋 My Orders</button>
         <button class="d-tab-btn" data-tab="tab-add">➕ Add New Product</button>
       </div>
 
@@ -2749,17 +3705,38 @@
         </div>
       </div>
 
-      <!-- Tab 2: Orders -->
+      <!-- Tab 2: Orders / My Orders -->
       <div id="tab-orders" class="d-tab-content" style="display:none;">
+        <div class="orders-toolbar">
+          <div class="orders-toolbar-title">
+            <span>📋 My Orders & Order History</span>
+            <span class="orders-count-badge" id="ordersCountBadge">0 orders</span>
+          </div>
+          <div class="orders-sort-group">
+            <span class="orders-sort-label">Sort by Date:</span>
+            <div class="orders-sort-toggles" role="group" aria-label="Sort order history by date">
+              <button type="button" id="orderSortNewestBtn" class="order-sort-toggle-btn active" onclick="setOrderDateSort('newest')" aria-pressed="true" title="Sort by date: Newest First">
+                <span>⬇️ Newest First</span>
+              </button>
+              <button type="button" id="orderSortOldestBtn" class="order-sort-toggle-btn" onclick="setOrderDateSort('oldest')" aria-pressed="false" title="Sort by date: Oldest First">
+                <span>⬆️ Oldest First</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="table-responsive">
           <table class="d-table">
             <thead>
               <tr>
                 <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Delivery Date</th>
                 <th>Customer</th>
                 <th>Items</th>
                 <th>Amount</th>
                 <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody id="dashOrdersTableBody">
@@ -2935,6 +3912,7 @@
         total: 245,
         date: '2026-09-10',
         time: '09:15 AM',
+        deliveryDate: '2026-09-10',
         status: 'Delivered'
       },
       {
@@ -2953,6 +3931,7 @@
         total: 507,
         date: '2026-09-11',
         time: '11:40 AM',
+        deliveryDate: '2026-09-11',
         status: 'Out for Delivery'
       },
       {
@@ -2972,18 +3951,61 @@
         total: 610,
         date: '2026-09-11',
         time: '12:30 PM',
+        deliveryDate: '2026-09-11',
         status: 'Packing'
+      },
+      {
+        id: 'TS-9204',
+        customer: 'Pooja Verma',
+        phone: '9876501234',
+        orderType: 'pickup',
+        pickupTimeSlot: '⚡ ASAP - Ready in 15-20 Mins',
+        pickupNote: 'Please pack in sturdy eco-friendly bag',
+        address: 'Store Pickup Counter (Slot: ⚡ ASAP - Ready in 15-20 Mins)',
+        storeLocation: SHOP_ADDRESS,
+        items: 'Amul Butter 500g (x1), Farm Fresh Desi Tomatoes (x2), Whole Wheat Brown Bread (x1)',
+        itemsList: [
+          { name: 'Amul Salted Pasteurized Butter', unit: '500 g', quantity: 1, price: 275, total: 275 },
+          { name: 'Farm Fresh Desi Tomatoes', unit: '1 kg', quantity: 2, price: 34, total: 68 },
+          { name: 'Whole Wheat 100% Brown Bread', unit: '400 g', quantity: 1, price: 45, total: 45 }
+        ],
+        subtotal: 388,
+        discount: 0,
+        delivery: 0,
+        total: 388,
+        date: '2026-09-12',
+        time: '10:15 AM',
+        deliveryDate: '2026-09-12',
+        status: 'Ready for Pickup'
       }
     ];
     let orders = JSON.parse(localStorage.getItem('sjm_orders')) || DEFAULT_ORDERS;
-    if (orders.length > 0 && (!orders[0].itemsList || orders[0].id.startsWith('SJM-'))) {
+    if (orders.length > 0 && (!orders[0].itemsList || orders[0].id.startsWith('SJM-') || !orders.some(o => o.orderType === 'pickup'))) {
       orders = DEFAULT_ORDERS;
       localStorage.setItem('sjm_orders', JSON.stringify(orders));
     }
+    let orderDateSortOrder = 'newest'; // 'newest' | 'oldest'
+    let selectedFulfillment = 'delivery'; // 'delivery' | 'pickup'
     let activeCategory = 'All';
     let searchQuery = '';
     let sortCriteria = 'featured';
     let appliedCoupon = null;
+
+    /**
+     * =========================================================================
+     * CUSTOMER AUTH & PROFILE STATE (Username, Profile Image, Mobile, Alt Mobile)
+     * =========================================================================
+     */
+    const DEFAULT_DEMO_USER = {
+      id: 'usr_default_1',
+      username: 'Aryan Rai',
+      profileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+      mobileNo: '8960025119',
+      alternateNo: '9876543210',
+      address: 'Flat 402, Shivam Enclave, Gandhi Road, Main Market'
+    };
+
+    let currentUser = null;
 
     /**
      * =========================================================================
@@ -3087,7 +4109,476 @@
       initOrderTracking();
       setupEventListeners();
       setupFAQ();
+      initUserSession();
+      syncOrdersFromDatabase();
     }
+
+    /**
+     * =========================================================================
+     * CUSTOMER AUTH & USER PROFILE MODULE
+     * (Username, Profile Image, Mobile No, Alternate No, Address)
+     * =========================================================================
+     */
+    function initUserSession() {
+      try {
+        const savedUserStr = localStorage.getItem('sjm_user');
+        if (savedUserStr) {
+          currentUser = JSON.parse(savedUserStr);
+        } else {
+          // Pre-populate with default demo user so user immediately enjoys the personalized experience
+          currentUser = DEFAULT_DEMO_USER;
+          localStorage.setItem('sjm_user', JSON.stringify(DEFAULT_DEMO_USER));
+        }
+      } catch (err) {
+        currentUser = DEFAULT_DEMO_USER;
+      }
+      updateUserHeaderUI();
+      syncCheckoutUserProfile();
+    }
+
+    function updateUserHeaderUI() {
+      const headerUserName = document.getElementById('headerUserName');
+      const headerUserAvatar = document.getElementById('headerUserAvatar');
+      const quickNavAccountLink = document.getElementById('quickNavAccountLink');
+
+      if (currentUser) {
+        if (headerUserName) {
+          headerUserName.textContent = currentUser.username || 'My Account';
+        }
+        if (headerUserAvatar) {
+          if (currentUser.profileImage) {
+            headerUserAvatar.innerHTML = `<img src="${currentUser.profileImage}" class="header-avatar-img" alt="${currentUser.username}">`;
+          } else {
+            headerUserAvatar.innerHTML = `👤`;
+          }
+        }
+        if (quickNavAccountLink) {
+          quickNavAccountLink.innerHTML = `👤 ${currentUser.username} (Profile)`;
+        }
+      } else {
+        if (headerUserName) headerUserName.textContent = 'Sign In';
+        if (headerUserAvatar) headerUserAvatar.innerHTML = `👤`;
+        if (quickNavAccountLink) quickNavAccountLink.innerHTML = `👤 Sign In / Register`;
+      }
+    }
+
+    function syncCheckoutUserProfile() {
+      const banner = document.getElementById('checkoutUserBanner');
+      const bannerImg = document.getElementById('checkoutUserImg');
+      const bannerGreet = document.getElementById('checkoutUserGreet');
+      const custName = document.getElementById('custName');
+      const custPhone = document.getElementById('custPhone');
+      const custAltPhone = document.getElementById('custAltPhone');
+      const custAddress = document.getElementById('custAddress');
+
+      if (currentUser) {
+        if (banner) banner.style.display = 'flex';
+        if (bannerImg) bannerImg.src = currentUser.profileImage || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80';
+        if (bannerGreet) bannerGreet.textContent = `Logged in as ${currentUser.username}`;
+        if (custName && !custName.value) custName.value = currentUser.username || '';
+        if (custPhone && !custPhone.value) custPhone.value = currentUser.mobileNo || '';
+        if (custAltPhone && !custAltPhone.value) custAltPhone.value = currentUser.alternateNo || '';
+        if (custAddress && !custAddress.value) custAddress.value = currentUser.address || '';
+      } else {
+        if (banner) banner.style.display = 'none';
+      }
+    }
+
+    window.openUserAuthOrProfile = function() {
+      if (currentUser) {
+        openUserProfileModal();
+      } else {
+        openUserAuthModal('signin');
+      }
+    };
+
+    window.openUserProfileModal = function() {
+      if (!currentUser) {
+        openUserAuthModal('signin');
+        return;
+      }
+      // Populate view fields
+      const viewName = document.getElementById('profileViewName');
+      const viewPhone = document.getElementById('profileViewPhone');
+      const viewAltPhone = document.getElementById('profileViewAltPhone');
+      const viewAddress = document.getElementById('profileViewAddress');
+      const viewImg = document.getElementById('profileViewImg');
+      const callPrimary = document.getElementById('profileCallPrimary');
+      const callAlt = document.getElementById('profileCallAlt');
+
+      if (viewName) viewName.textContent = currentUser.username || 'Customer';
+      if (viewPhone) viewPhone.textContent = currentUser.mobileNo ? `+91 ${currentUser.mobileNo}` : 'Not set';
+      if (viewAltPhone) viewAltPhone.textContent = currentUser.alternateNo ? `+91 ${currentUser.alternateNo}` : 'Not set';
+      if (viewAddress) viewAddress.textContent = currentUser.address || 'Not provided';
+      if (viewImg) viewImg.src = currentUser.profileImage || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80';
+
+      if (callPrimary && currentUser.mobileNo) callPrimary.href = `tel:${currentUser.mobileNo}`;
+      if (callAlt && currentUser.alternateNo) callAlt.href = `tel:${currentUser.alternateNo}`;
+
+      // Populate edit fields
+      const editName = document.getElementById('editProfileUsername');
+      const editPhone = document.getElementById('editProfileMobile');
+      const editAlt = document.getElementById('editProfileAltMobile');
+      const editAddr = document.getElementById('editProfileAddress');
+      const editImgPreview = document.getElementById('profileEditImgPreview');
+
+      if (editName) editName.value = currentUser.username || '';
+      if (editPhone) editPhone.value = currentUser.mobileNo || '';
+      if (editAlt) editAlt.value = currentUser.alternateNo || '';
+      if (editAddr) editAddr.value = currentUser.address || '';
+      if (editImgPreview) editImgPreview.src = currentUser.profileImage || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80';
+
+      // Ensure view mode is shown
+      toggleProfileEdit(false);
+
+      const overlay = document.getElementById('userProfileOverlay');
+      if (overlay) overlay.classList.add('active');
+    };
+
+    window.closeProfileModal = function() {
+      const overlay = document.getElementById('userProfileOverlay');
+      if (overlay) overlay.classList.remove('active');
+    };
+
+    window.toggleProfileEdit = function(showEdit) {
+      const viewMode = document.getElementById('profileViewMode');
+      const editMode = document.getElementById('profileEditMode');
+      if (viewMode && editMode) {
+        viewMode.style.display = showEdit ? 'none' : 'block';
+        editMode.style.display = showEdit ? 'block' : 'none';
+      }
+    };
+
+    window.selectPresetAvatar = function(url) {
+      const editImgPreview = document.getElementById('profileEditImgPreview');
+      if (editImgPreview) editImgPreview.src = url;
+    };
+
+    window.handleProfilePhotoUpload = function(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('Image size should be under 5MB', '⚠️');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        // Compress image using canvas for snappy storage
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxDim = 300;
+          let width = img.width;
+          let height = img.height;
+          if (width > height) {
+            if (width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            }
+          } else {
+            if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+          const editImgPreview = document.getElementById('profileEditImgPreview');
+          if (editImgPreview) editImgPreview.src = compressedDataUrl;
+          showToast('Profile photo selected!', '📸');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.saveProfileChanges = async function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (!currentUser) return;
+
+      const editName = document.getElementById('editProfileUsername').value.trim();
+      const editPhone = document.getElementById('editProfileMobile').value.trim();
+      const editAlt = document.getElementById('editProfileAltMobile').value.trim();
+      const editAddr = document.getElementById('editProfileAddress').value.trim();
+      const editImgPreview = document.getElementById('profileEditImgPreview');
+      const newImg = editImgPreview ? editImgPreview.src : currentUser.profileImage;
+
+      if (!editName) {
+        showToast('Please enter your full name / username', '⚠️');
+        return;
+      }
+      if (!editPhone || !/^\d{10}$/.test(editPhone.replace(/\D/g, ''))) {
+        showToast('Please enter a valid 10-digit primary mobile number', '⚠️');
+        return;
+      }
+      if (editAlt && !/^\d{10}$/.test(editAlt.replace(/\D/g, ''))) {
+        showToast('Alternate mobile number must be 10 digits', '⚠️');
+        return;
+      }
+
+      currentUser.username = editName;
+      currentUser.mobileNo = editPhone.replace(/\D/g, '');
+      currentUser.alternateNo = editAlt ? editAlt.replace(/\D/g, '') : '';
+      currentUser.address = editAddr;
+      currentUser.profileImage = newImg;
+
+      // Update local storage
+      localStorage.setItem('sjm_user', JSON.stringify(currentUser));
+      localStorage.setItem('sjm_user_name', currentUser.username);
+      localStorage.setItem('sjm_user_phone', currentUser.mobileNo);
+      localStorage.setItem('sjm_user_alt_phone', currentUser.alternateNo);
+      localStorage.setItem('sjm_user_address', currentUser.address);
+
+      // Async persist to backend API
+      try {
+        fetch(`/api/auth/profile/${currentUser.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: currentUser.username,
+            mobileNo: currentUser.mobileNo,
+            alternateNo: currentUser.alternateNo,
+            address: currentUser.address,
+            profileImage: currentUser.profileImage
+          })
+        }).catch(err => console.warn('[AUTH] Offline profile update:', err));
+      } catch (err) {
+        console.warn(err);
+      }
+
+      updateUserHeaderUI();
+      syncCheckoutUserProfile();
+      openUserProfileModal();
+      showToast('Profile updated successfully!', '✅');
+    };
+
+    window.handleUserSignOut = function() {
+      currentUser = null;
+      localStorage.removeItem('sjm_user');
+      closeProfileModal();
+      updateUserHeaderUI();
+      syncCheckoutUserProfile();
+      showToast('Signed out of customer account', '👋');
+    };
+
+    window.openUserAuthModal = function(defaultTab = 'signin') {
+      const overlay = document.getElementById('userAuthOverlay');
+      if (overlay) {
+        switchAuthTab(defaultTab);
+        overlay.classList.add('active');
+      }
+    };
+
+    window.closeAuthModal = function() {
+      const overlay = document.getElementById('userAuthOverlay');
+      if (overlay) overlay.classList.remove('active');
+    };
+
+    window.switchAuthTab = function(tab) {
+      const signinTabBtn = document.getElementById('authTabSignIn');
+      const registerTabBtn = document.getElementById('authTabRegister');
+      const signinPanel = document.getElementById('authSignInPanel');
+      const registerPanel = document.getElementById('authRegisterPanel');
+
+      if (signinTabBtn && registerTabBtn && signinPanel && registerPanel) {
+        if (tab === 'signin') {
+          signinTabBtn.classList.add('active');
+          registerTabBtn.classList.remove('active');
+          signinPanel.style.display = 'block';
+          registerPanel.style.display = 'none';
+        } else {
+          signinTabBtn.classList.remove('active');
+          registerTabBtn.classList.add('active');
+          signinPanel.style.display = 'none';
+          registerPanel.style.display = 'block';
+        }
+      }
+    };
+
+    window.selectRegisterPresetAvatar = function(url) {
+      const img = document.getElementById('authRegImgPreview');
+      if (img) img.src = url;
+    };
+
+    window.handleRegisterPhotoUpload = function(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('Image size should be under 5MB', '⚠️');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxDim = 300;
+          let width = img.width;
+          let height = img.height;
+          if (width > height) {
+            if (width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            }
+          } else {
+            if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressed = canvas.toDataURL('image/jpeg', 0.85);
+          const regPreview = document.getElementById('authRegImgPreview');
+          if (regPreview) regPreview.src = compressed;
+          showToast('Profile photo ready!', '📸');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.handleAuthSignIn = async function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const identifier = document.getElementById('authLoginIdentifier').value.trim();
+      const password = document.getElementById('authLoginPassword').value;
+
+      if (!identifier) {
+        showToast('Please enter your Mobile Number or Username', '⚠️');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier, password })
+        });
+        const data = await res.json();
+        if (res.ok && data.user) {
+          currentUser = data.user;
+          localStorage.setItem('sjm_user', JSON.stringify(currentUser));
+          updateUserHeaderUI();
+          syncCheckoutUserProfile();
+          closeAuthModal();
+          showToast(`Welcome back, ${currentUser.username}! 👋`, '🎉');
+          return;
+        } else {
+          // If identifier matches DEFAULT_DEMO_USER or local user fallback
+          if (identifier === '8960025119' || identifier.toLowerCase() === 'aryan rai') {
+            currentUser = DEFAULT_DEMO_USER;
+            localStorage.setItem('sjm_user', JSON.stringify(currentUser));
+            updateUserHeaderUI();
+            syncCheckoutUserProfile();
+            closeAuthModal();
+            showToast(`Welcome back, ${currentUser.username}! 👋`, '🎉');
+            return;
+          }
+          showToast(data.error || 'Invalid mobile number or credentials', '⚠️');
+        }
+      } catch (err) {
+        // Fallback for offline mode
+        currentUser = {
+          id: `usr_${Date.now()}`,
+          username: identifier,
+          profileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+          mobileNo: /^\d+$/.test(identifier) ? identifier : '8960025119',
+          alternateNo: '',
+          address: ''
+        };
+        localStorage.setItem('sjm_user', JSON.stringify(currentUser));
+        updateUserHeaderUI();
+        syncCheckoutUserProfile();
+        closeAuthModal();
+        showToast(`Welcome, ${currentUser.username}! 👋`, '🎉');
+      }
+    };
+
+    window.quickLoginDemoUser = function() {
+      currentUser = DEFAULT_DEMO_USER;
+      localStorage.setItem('sjm_user', JSON.stringify(currentUser));
+      updateUserHeaderUI();
+      syncCheckoutUserProfile();
+      closeAuthModal();
+      showToast(`Logged in as ${currentUser.username}! ⚡`, '🎉');
+    };
+
+    window.handleAuthRegister = async function(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      const username = document.getElementById('authRegUsername').value.trim();
+      const mobileNo = document.getElementById('authRegMobile').value.trim().replace(/\D/g, '');
+      const alternateNo = document.getElementById('authRegAltMobile').value.trim().replace(/\D/g, '');
+      const address = document.getElementById('authRegAddress').value.trim();
+      const password = document.getElementById('authRegPassword').value;
+      const previewEl = document.getElementById('authRegImgPreview');
+      const profileImage = previewEl ? previewEl.src : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&auto=format&fit=crop&q=80';
+
+      if (!username) {
+        showToast('Please enter your full name / username', '⚠️');
+        return;
+      }
+      if (!mobileNo || mobileNo.length !== 10) {
+        showToast('Please enter a valid 10-digit primary mobile number', '⚠️');
+        return;
+      }
+      if (alternateNo && alternateNo.length !== 10) {
+        showToast('Alternate mobile number must be 10 digits', '⚠️');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username,
+            mobileNo,
+            alternateNo,
+            address,
+            password,
+            profileImage
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.user) {
+          currentUser = data.user;
+        } else {
+          currentUser = {
+            id: `usr_${Date.now()}`,
+            username,
+            mobileNo,
+            alternateNo,
+            address,
+            profileImage
+          };
+        }
+      } catch (err) {
+        currentUser = {
+          id: `usr_${Date.now()}`,
+          username,
+          mobileNo,
+          alternateNo,
+          address,
+          profileImage
+        };
+      }
+
+      localStorage.setItem('sjm_user', JSON.stringify(currentUser));
+      localStorage.setItem('sjm_user_name', currentUser.username);
+      localStorage.setItem('sjm_user_phone', currentUser.mobileNo);
+      localStorage.setItem('sjm_user_alt_phone', currentUser.alternateNo);
+      localStorage.setItem('sjm_user_address', currentUser.address);
+
+      updateUserHeaderUI();
+      syncCheckoutUserProfile();
+      closeAuthModal();
+      showToast(`Account created! Welcome, ${currentUser.username}! 🎉`, '✨');
+    };
 
     function applyTheme(theme) {
       if (theme === 'dark') {
@@ -3307,13 +4798,116 @@
       saveCart();
     };
 
+    /**
+     * =========================================================================
+     * FULFILLMENT MODE: STORE PICKUP VS HOME DELIVERY
+     * =========================================================================
+     */
+    window.setCartFulfillment = function(mode) {
+      selectedFulfillment = mode;
+      const deliveryBtn = document.getElementById('cartFulfillmentDeliveryBtn');
+      const pickupBtn = document.getElementById('cartFulfillmentPickupBtn');
+      const checkoutDelBtn = document.getElementById('checkoutDeliveryBtn');
+      const checkoutPickBtn = document.getElementById('checkoutPickupBtn');
+
+      if (deliveryBtn && pickupBtn) {
+        deliveryBtn.classList.toggle('active', mode === 'delivery');
+        pickupBtn.classList.toggle('active', mode === 'pickup');
+      }
+      if (checkoutDelBtn && checkoutPickBtn) {
+        checkoutDelBtn.classList.toggle('active', mode === 'delivery');
+        checkoutPickBtn.classList.toggle('active', mode === 'pickup');
+        checkoutDelBtn.setAttribute('aria-checked', mode === 'delivery');
+        checkoutPickBtn.setAttribute('aria-checked', mode === 'pickup');
+      }
+
+      syncCheckoutFulfillmentUI();
+      updateCartUI();
+
+      if (mode === 'pickup') {
+        showToast('Store Pickup selected: Zero delivery charge! Collect at store counter.', '🏪');
+      } else {
+        showToast('Home Delivery selected: Delivered directly to your doorstep.', '🛵');
+      }
+    };
+
+    window.setCheckoutFulfillment = function(mode) {
+      setCartFulfillment(mode);
+    };
+
+    function syncCheckoutFulfillmentUI() {
+      const isPickup = selectedFulfillment === 'pickup';
+      const delGroup = document.getElementById('deliveryFieldsGroup');
+      const pickGroup = document.getElementById('pickupFieldsGroup');
+      const addressInput = document.getElementById('custAddress');
+      const methodDisplay = document.getElementById('checkoutMethodDisplay');
+      const feeDisplay = document.getElementById('checkoutDeliveryFee');
+      const hintDisplay = document.getElementById('checkoutPaymentHint');
+      const submitBtn = document.getElementById('submitOrderBtn');
+      const modalTitle = document.getElementById('checkoutModalTitle');
+
+      if (delGroup) delGroup.style.display = isPickup ? 'none' : 'block';
+      if (pickGroup) pickGroup.style.display = isPickup ? 'block' : 'none';
+
+      if (addressInput) {
+        if (isPickup) {
+          addressInput.removeAttribute('required');
+        } else {
+          addressInput.setAttribute('required', 'required');
+        }
+      }
+
+      if (methodDisplay) {
+        methodDisplay.innerHTML = isPickup
+          ? `<span style="color:#0369a1; font-weight:700;">🏪 Store Pickup (Self Counter Collection)</span>`
+          : `<span style="color:var(--primary); font-weight:700;">🛵 Home Delivery</span>`;
+      }
+
+      const { delivery, total } = calculateCartTotals();
+      if (feeDisplay) {
+        feeDisplay.innerHTML = isPickup
+          ? `<strong style="color:#15803d;">FREE (₹0)</strong>`
+          : (delivery === 0 ? `<strong style="color:#15803d;">FREE (₹0)</strong>` : `₹${delivery}`);
+      }
+
+      if (hintDisplay) {
+        hintDisplay.innerHTML = isPickup
+          ? `💵 Payment Mode: <strong>Pay at Store Counter (Cash / UPI QR) upon collection</strong>`
+          : `💵 Payment Mode: <strong>Cash on Delivery (COD) / UPI QR on arrival</strong>`;
+      }
+
+      if (submitBtn) {
+        submitBtn.innerHTML = isPickup
+          ? `🏪 Place Order for Store Pickup (₹${total})`
+          : `✅ Place Order (COD - ₹${total})`;
+      }
+
+      if (modalTitle) {
+        modalTitle.textContent = isPickup ? '🏪 Store Pickup Checkout' : '📦 Home Delivery Checkout';
+      }
+    }
+
+    window.quickSelectStorePickup = function() {
+      setCartFulfillment('pickup');
+      if (cart.length > 0) {
+        openCheckoutModal();
+      } else {
+        const prodSec = document.getElementById('products-section');
+        if (prodSec) prodSec.scrollIntoView({ behavior: 'smooth' });
+        showToast('Store Pickup activated! Add items to basket to place pickup order', '🏪');
+      }
+    };
+
     function calculateCartTotals() {
       const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       let discount = 0;
       if (appliedCoupon) {
         discount = Math.round((subtotal * appliedCoupon.percent) / 100);
       }
-      const delivery = (subtotal > 0 && subtotal < FREE_DELIVERY_THRESHOLD) ? STANDARD_DELIVERY_FEE : 0;
+      // Zero delivery fee for store pickup
+      const delivery = selectedFulfillment === 'pickup'
+        ? 0
+        : ((subtotal > 0 && subtotal < FREE_DELIVERY_THRESHOLD) ? STANDARD_DELIVERY_FEE : 0);
       const total = Math.max(0, subtotal - discount + delivery);
 
       return { subtotal, discount, delivery, total };
@@ -3321,14 +4915,43 @@
 
     function updateCartUI() {
       const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const prevItems = parseInt(cartCountBadge.textContent, 10);
+
+      // Trigger smooth scaling animation if item count changed (added or removed)
+      if (!isNaN(prevItems) && prevItems !== totalItems) {
+        cartCountBadge.classList.remove('cart-badge-bounce', 'cart-badge-add', 'cart-badge-remove');
+        void cartCountBadge.offsetWidth; // Force reflow to restart CSS animation smoothly
+        if (totalItems > prevItems) {
+          cartCountBadge.classList.add('cart-badge-add');
+        } else {
+          cartCountBadge.classList.add('cart-badge-remove');
+        }
+      }
+
       cartCountBadge.textContent = totalItems;
       cartDrawerCount.textContent = totalItems;
 
       const { subtotal, discount, delivery, total } = calculateCartTotals();
+      const isPickup = selectedFulfillment === 'pickup';
 
       cartSubtotal.textContent = `₹${subtotal}`;
-      cartDelivery.textContent = delivery === 0 ? (subtotal > 0 ? 'FREE' : '₹0') : `₹${delivery}`;
+      if (isPickup) {
+        cartDelivery.innerHTML = `<strong style="color:var(--primary);">FREE (Pickup)</strong>`;
+      } else {
+        cartDelivery.textContent = delivery === 0 ? (subtotal > 0 ? 'FREE' : '₹0') : `₹${delivery}`;
+      }
       cartTotal.textContent = `₹${total}`;
+
+      const hintEl = document.getElementById('cartFulfillmentHint');
+      if (hintEl) {
+        if (isPickup) {
+          hintEl.textContent = 'Free pickup at store counter (15-20 mins)';
+        } else if (subtotal >= FREE_DELIVERY_THRESHOLD) {
+          hintEl.textContent = 'Free home delivery applied!';
+        } else {
+          hintEl.textContent = `Add ₹${FREE_DELIVERY_THRESHOLD - subtotal} more for free delivery`;
+        }
+      }
 
       if (appliedCoupon && discount > 0) {
         discountLine.style.display = 'flex';
@@ -3397,11 +5020,24 @@
     function generateWhatsAppMessage(customerName = '', address = '') {
       if (cart.length === 0) return '';
       const { subtotal, discount, delivery, total } = calculateCartTotals();
+      const isPickup = selectedFulfillment === 'pickup';
+      const pickupTime = document.getElementById('custPickupTime') ? document.getElementById('custPickupTime').value : '⚡ ASAP (~15-20 mins)';
+      const pickupNote = document.getElementById('custPickupNote') ? document.getElementById('custPickupNote').value.trim() : '';
 
       let msg = `🛍️ *NEW GROCERY ORDER - ${SHOP_NAME}*\n`;
       msg += `------------------------------------\n`;
       if (customerName) msg += `👤 *Customer:* ${customerName}\n`;
-      if (address) msg += `📍 *Delivery Address:* ${address}\n`;
+
+      if (isPickup) {
+        msg += `🏪 *Order Type:* STORE PICKUP (Click & Collect)\n`;
+        msg += `⏰ *Pickup Slot:* ${pickupTime}\n`;
+        msg += `📍 *Store Counter:* ${SHOP_NAME}, ${SHOP_ADDRESS}\n`;
+        if (pickupNote) msg += `📝 *Customer Note:* ${pickupNote}\n`;
+      } else {
+        msg += `🛵 *Order Type:* HOME DOORSTEP DELIVERY\n`;
+        if (address) msg += `📍 *Delivery Address:* ${address}\n`;
+      }
+
       msg += `\n📦 *Order Items:*\n`;
 
       cart.forEach((item, i) => {
@@ -3410,10 +5046,13 @@
 
       msg += `\n💰 *Subtotal:* ₹${subtotal}\n`;
       if (discount > 0) msg += `🏷️ *Discount (${appliedCoupon.code}):* -₹${discount}\n`;
-      msg += `🚚 *Delivery Charge:* ${delivery === 0 ? 'FREE' : '₹' + delivery}\n`;
-      msg += `💵 *Total Payable (COD/UPI): ₹${total}*\n`;
+      msg += `🚚 *Delivery Fee:* ${isPickup ? 'FREE (Store Pickup)' : (delivery === 0 ? 'FREE' : '₹' + delivery)}\n`;
+      msg += `💵 *Total Payable: ₹${total}*\n`;
+      msg += `💳 *Payment Method:* ${isPickup ? 'Pay at Store Counter (Cash / UPI QR)' : 'Cash on Delivery (COD) / UPI QR'}\n`;
       msg += `------------------------------------\n`;
-      msg += `Please confirm my order and share the expected delivery time. Thank you!`;
+      msg += isPickup
+        ? `Please keep my groceries packed and ready at the counter. Thank you!`
+        : `Please confirm my order and share the expected delivery time. Thank you!`;
 
       return encodeURIComponent(msg);
     }
@@ -3433,25 +5072,47 @@
      * CHECKOUT & ORDER SUBMISSION
      * =========================================================================
      */
-    proceedCheckoutBtn.addEventListener('click', () => {
+    function openCheckoutModal() {
       if (cart.length === 0) return;
       cartOverlay.classList.remove('active');
       const { total } = calculateCartTotals();
       const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
       checkoutItemCount.textContent = `${itemCount} items`;
       checkoutTotalAmount.textContent = `₹${total}`;
+      syncCheckoutFulfillmentUI();
+      syncCheckoutUserProfile();
       checkoutOverlay.classList.add('active');
-    });
+    }
+
+    proceedCheckoutBtn.addEventListener('click', openCheckoutModal);
 
     checkoutForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
-      const address = document.getElementById('custAddress').value.trim();
-      const landmark = document.getElementById('custLandmark').value.trim();
+      const altPhone = document.getElementById('custAltPhone') ? document.getElementById('custAltPhone').value.trim() : '';
+      const isPickup = selectedFulfillment === 'pickup';
 
-      if (!name || !phone || !address) {
-        showToast('Please fill out all required fields', '⚠️');
+      let address = '';
+      let landmark = '';
+      let pickupTime = '';
+      let pickupNote = '';
+
+      if (isPickup) {
+        pickupTime = document.getElementById('custPickupTime').value;
+        pickupNote = document.getElementById('custPickupNote').value.trim();
+      } else {
+        address = document.getElementById('custAddress').value.trim();
+        landmark = document.getElementById('custLandmark').value.trim();
+        if (!address) {
+          showToast('Please enter your delivery street address', '⚠️');
+          document.getElementById('custAddress').focus();
+          return;
+        }
+      }
+
+      if (!name || !phone) {
+        showToast('Please enter your name and phone number', '⚠️');
         return;
       }
 
@@ -3466,11 +5127,20 @@
       }));
       const itemsSummary = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
 
+      const formattedAddress = isPickup
+        ? `Store Pickup Counter (Slot: ${pickupTime})${pickupNote ? ' - Note: ' + pickupNote : ''}`
+        : `${address}${landmark ? ' (Landmark: ' + landmark + ')' : ''}`;
+
       const newOrder = {
         id: orderId,
         customer: name,
         phone: phone,
-        address: `${address}${landmark ? ' (Landmark: ' + landmark + ')' : ''}`,
+        alternatePhone: altPhone,
+        orderType: isPickup ? 'pickup' : 'delivery',
+        pickupTimeSlot: isPickup ? pickupTime : null,
+        pickupNote: isPickup ? pickupNote : null,
+        address: formattedAddress,
+        storeLocation: SHOP_ADDRESS,
         items: itemsSummary,
         itemsList: itemsList,
         subtotal: subtotal,
@@ -3480,19 +5150,79 @@
         total: total,
         date: new Date().toISOString().split('T')[0],
         time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
+        deliveryDate: new Date().toISOString().split('T')[0],
         status: 'Confirmed'
       };
 
-      // Save order to history
+      // Save order to local cache
       orders.unshift(newOrder);
       localStorage.setItem('sjm_orders', JSON.stringify(orders));
       currentTrackedOrderId = orderId;
       renderQuickOrderPills();
 
+      // Persist order to real backend database API for Owner Delivery Portal
+      try {
+        fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: orderId,
+            orderType: isPickup ? 'pickup' : 'delivery',
+            customer: name,
+            phone: phone,
+            alternatePhone: altPhone,
+            address: isPickup ? 'Store Express Counter Pickup - Tripathi Store, Shop No. 12' : address,
+            landmark: isPickup ? 'Shop No. 12 Counter' : landmark,
+            pickupTime: isPickup ? pickupTime : null,
+            pickupNote: isPickup ? pickupNote : null,
+            items: itemsSummary,
+            itemsList: itemsList,
+            subtotal: subtotal,
+            discount: discount,
+            delivery: delivery,
+            couponCode: appliedCoupon ? appliedCoupon.code : null,
+            total: total,
+            paymentMode: isPickup ? 'Pay on Pickup (Cash/UPI)' : 'Cash on Delivery (COD)'
+          })
+        }).then(r => r.json()).then(res => {
+          console.log('[DATABASE] Order recorded to persistent database:', res);
+        }).catch(err => {
+          console.warn('[DATABASE] Backend API request failed, cached in localStorage:', err);
+        });
+      } catch (err) {
+        console.warn(err);
+      }
+
       // Show confirmation dialog
       confirmedOrderId.textContent = `#${orderId}`;
-      confirmedCustomer.textContent = `${name} (${phone})`;
-      confirmedAddress.textContent = address;
+      confirmedCustomer.textContent = `${name} (Primary: ${phone}${altPhone ? ` • Alt: ${altPhone}` : ''})`;
+
+      const confFulfillment = document.getElementById('confirmedFulfillmentType');
+      const confDestLabel = document.getElementById('confirmedDestLabel');
+      const confInstr = document.getElementById('confirmedInstructions');
+
+      if (confFulfillment) {
+        confFulfillment.innerHTML = isPickup
+          ? `<span style="color:#0369a1; font-weight:700;">🏪 Store Pickup (Self Counter Collection)</span>`
+          : `<span style="color:var(--primary); font-weight:700;">🛵 Home Delivery</span>`;
+      }
+
+      if (confDestLabel) {
+        confDestLabel.textContent = isPickup ? 'Pickup Point:' : 'Delivery Address:';
+      }
+
+      if (isPickup) {
+        confirmedAddress.innerHTML = `<strong>${SHOP_NAME} Quick Counter</strong><br><span style="font-size:0.75rem; color:var(--text-muted);">${SHOP_ADDRESS}<br>Slot: <strong>${pickupTime}</strong></span>`;
+        if (confInstr) {
+          confInstr.innerHTML = `🏪 <strong>Your bag will be packed and waiting at our counter!</strong> Show Order ID <strong>#${orderId}</strong> at Tripathi Store counter to pay & collect with zero delivery fee.`;
+        }
+      } else {
+        confirmedAddress.textContent = formattedAddress;
+        if (confInstr) {
+          confInstr.innerHTML = `⏱️ Store Contact: <strong>+91 8960025119</strong> • Estimated Dispatch: <strong>20 - 30 mins</strong>`;
+        }
+      }
+
       confirmedAmount.textContent = `₹${total}`;
 
       checkoutOverlay.classList.remove('active');
@@ -3504,7 +5234,7 @@
       couponInput.value = '';
       saveCart();
       checkoutForm.reset();
-      showToast('Order placed successfully!', '🎉');
+      showToast(isPickup ? 'Store pickup order placed successfully!' : 'Delivery order placed successfully!', '🎉');
     });
 
     trackThisOrderBtn.addEventListener('click', () => {
@@ -3526,7 +5256,8 @@
     shareOrderWhatsAppBtn.addEventListener('click', () => {
       const orderId = confirmedOrderId.textContent;
       const amt = confirmedAmount.textContent;
-      const text = encodeURIComponent(`Hi ${SHOP_NAME}! My order ${orderId} for ${amt} has been placed. Please confirm dispatch.`);
+      const isPickup = selectedFulfillment === 'pickup';
+      const text = encodeURIComponent(`Hi ${SHOP_NAME}! My order ${orderId} (${isPickup ? 'Store Pickup' : 'Home Delivery'}) for ${amt} has been placed on your website. Please keep it ready!`);
       window.open(`https://wa.me/${SHOP_WHATSAPP}?text=${text}`, '_blank');
     });
 
@@ -3537,6 +5268,12 @@
     orderCartWhatsAppBtn.addEventListener('click', () => openWhatsAppOrder());
     floatingWhatsAppBtn.addEventListener('click', () => openWhatsAppOrder());
     heroWhatsAppBtn.addEventListener('click', () => openWhatsAppOrder());
+
+    if (cartCountBadge) {
+      cartCountBadge.addEventListener('animationend', () => {
+        cartCountBadge.classList.remove('cart-badge-bounce', 'cart-badge-add', 'cart-badge-remove');
+      });
+    }
 
     /**
      * =========================================================================
@@ -3575,29 +5312,259 @@
         </tr>
       `).join('');
 
-      // Render orders table with editable status dropdown and bill button
-      dashOrdersTableBody.innerHTML = orders.map(o => `
-        <tr>
-          <td><strong>#${o.id}</strong></td>
-          <td>${o.customer}</td>
-          <td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${o.items}</td>
-          <td><strong>₹${o.total}</strong></td>
-          <td>
-            <div style="display:flex; align-items:center; gap:0.4rem;">
-              <select class="form-control" style="padding:4px 8px; font-size:0.78rem; font-weight:700; width:auto; border-radius:6px; cursor:pointer;" onchange="updateOrderStatus('${o.id}', this.value)">
-                <option value="Confirmed" ${o.status === 'Confirmed' ? 'selected' : ''}>📝 Confirmed</option>
-                <option value="Packing" ${o.status === 'Packing' ? 'selected' : ''}>🛍️ Packing</option>
-                <option value="Out for Delivery" ${o.status === 'Out for Delivery' ? 'selected' : ''}>🛵 Out for Delivery</option>
-                <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>🏡 Delivered</option>
-              </select>
-              <button type="button" class="btn btn-sm" style="background:var(--primary-light); color:var(--primary); border:1px solid var(--primary); padding:3px 8px; font-size:0.75rem; font-weight:700; border-radius:6px; cursor:pointer;" onclick="generateBill('${o.id}')" title="Generate Retail Bill & Invoice">
-                🧾 Bill
-              </button>
-            </div>
-          </td>
-        </tr>
-      `).join('');
+      // Render orders table with sorting and formatted date columns
+      renderOrdersTable();
     }
+
+    /**
+     * =========================================================================
+     * MY ORDERS: DATE SORTING, FORMATTING & RENDERING
+     * =========================================================================
+     */
+    function getOrderTimestamp(order) {
+      if (!order) return 0;
+      if (order.timestamp && !isNaN(Number(order.timestamp))) return Number(order.timestamp);
+      try {
+        const dateStr = order.date || '2026-01-01';
+        const timeStr = order.time || '12:00 PM';
+        const parts = dateStr.split('-').map(Number);
+        const year = parts[0] || 2026;
+        const month = (parts[1] || 1) - 1;
+        const day = parts[2] || 1;
+        let hours = 12;
+        let minutes = 0;
+        const timeMatch = timeStr.match(/(\d+):(\d+)\s*(AM|PM)?/i);
+        if (timeMatch) {
+          hours = parseInt(timeMatch[1], 10);
+          minutes = parseInt(timeMatch[2], 10);
+          const meridiem = (timeMatch[3] || '').toUpperCase();
+          if (meridiem === 'PM' && hours < 12) hours += 12;
+          if (meridiem === 'AM' && hours === 12) hours = 0;
+        }
+        const d = new Date(year, month, day, hours, minutes, 0);
+        return isNaN(d.getTime()) ? 0 : d.getTime();
+      } catch (e) {
+        return 0;
+      }
+    }
+
+    function formatDisplayDate(dateStr) {
+      if (!dateStr) return 'N/A';
+      try {
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+          const d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+          return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+        return dateStr;
+      } catch (e) {
+        return dateStr;
+      }
+    }
+
+    function isPickupOrder(order) {
+      if (!order) return false;
+      if (order.orderType === 'pickup') return true;
+      const addr = (order.address || '').toLowerCase();
+      return addr.includes('store pickup') || addr.includes('pickup counter') || addr.includes('self collection');
+    }
+
+    function getDeliveryDateDisplay(order) {
+      const isPickup = isPickupOrder(order);
+      if (order.status === 'Delivered' || order.status === 'Picked Up') {
+        const dStr = order.deliveryDate || order.date;
+        return isPickup ? `🤝 Collected: ${formatDisplayDate(dStr)}` : `✅ Delivered: ${formatDisplayDate(dStr)}`;
+      }
+      if (order.status === 'Ready for Pickup') {
+        return `🏪 Ready at Counter`;
+      }
+      if (order.status === 'Out for Delivery') {
+        return isPickup ? `🏪 Ready at Counter` : `🛵 Arriving Today`;
+      }
+      if (order.status === 'Packing') {
+        return isPickup ? `🛍️ Packing at Counter` : `🛍️ Est. Today (~45m)`;
+      }
+      const dStr = order.deliveryDate || order.date;
+      return `📅 ${formatDisplayDate(dStr)}`;
+    }
+
+    function getDeliverySubtext(order) {
+      const isPickup = isPickupOrder(order);
+      if (order.status === 'Delivered' || order.status === 'Picked Up') {
+        return isPickup ? 'Handed over at store counter' : 'Delivered at Doorstep';
+      }
+      if (order.status === 'Ready for Pickup') {
+        return 'Waiting at Express Counter';
+      }
+      if (order.status === 'Out for Delivery') {
+        return isPickup ? 'Waiting at Express Counter' : 'Rider dispatched';
+      }
+      if (order.status === 'Packing') {
+        return isPickup ? 'Staff bagging items' : 'Order being packed';
+      }
+      return isPickup ? 'In-Store Pickup (Free)' : 'Standard Doorstep Delivery';
+    }
+
+    function getStatusBadgeStyle(status) {
+      const s = (status || '').toLowerCase();
+      if (s.includes('delivered') || s.includes('picked')) return { bg: 'rgba(16, 185, 129, 0.12)', color: '#047857', border: 'rgba(16, 185, 129, 0.3)', icon: '🤝' };
+      if (s.includes('ready')) return { bg: 'rgba(14, 165, 233, 0.12)', color: '#0369a1', border: 'rgba(14, 165, 233, 0.3)', icon: '🏪' };
+      if (s.includes('out')) return { bg: 'rgba(236, 72, 153, 0.12)', color: '#be185d', border: 'rgba(236, 72, 153, 0.3)', icon: '🛵' };
+      if (s.includes('pack')) return { bg: 'rgba(245, 158, 11, 0.12)', color: '#b45309', border: 'rgba(245, 158, 11, 0.3)', icon: '🛍️' };
+      return { bg: 'rgba(59, 130, 246, 0.12)', color: '#1d4ed8', border: 'rgba(59, 130, 246, 0.3)', icon: '📝' };
+    }
+
+    window.setOrderDateSort = function(direction) {
+      orderDateSortOrder = direction;
+      const newestBtn = document.getElementById('orderSortNewestBtn');
+      const oldestBtn = document.getElementById('orderSortOldestBtn');
+      if (newestBtn) {
+        newestBtn.classList.toggle('active', direction === 'newest');
+        newestBtn.setAttribute('aria-pressed', direction === 'newest');
+      }
+      if (oldestBtn) {
+        oldestBtn.classList.toggle('active', direction === 'oldest');
+        oldestBtn.setAttribute('aria-pressed', direction === 'oldest');
+      }
+      renderOrdersTable();
+      showToast(`Sorted order history: ${direction === 'newest' ? 'Newest First' : 'Oldest First'}`, '📅');
+    };
+
+    function renderOrdersTable() {
+      if (!dashOrdersTableBody) return;
+      const countBadge = document.getElementById('ordersCountBadge');
+      if (countBadge) {
+        countBadge.textContent = `${orders.length} order${orders.length === 1 ? '' : 's'}`;
+      }
+
+      if (!orders || orders.length === 0) {
+        dashOrdersTableBody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align:center; padding:2.5rem 1rem; color:var(--text-muted);">
+              <div style="font-size:2.2rem; margin-bottom:0.5rem;">📦</div>
+              <div style="font-weight:700; font-size:1rem; color:var(--text-main); margin-bottom:0.25rem;">No Orders Placed Yet</div>
+              <div style="font-size:0.82rem; margin-bottom:1rem;">Add fresh groceries to your cart and place your first order!</div>
+              <button type="button" class="btn btn-primary" onclick="dashboardOverlay.classList.remove('active'); document.getElementById('products-section').scrollIntoView({ behavior:'smooth' });" style="font-size:0.82rem; padding:0.45rem 1.1rem;">
+                Browse Store Products
+              </button>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      // Sort a copy of orders according to orderDateSortOrder ('newest' or 'oldest')
+      const sortedList = [...orders].sort((a, b) => {
+        const timeA = getOrderTimestamp(a);
+        const timeB = getOrderTimestamp(b);
+        if (timeA !== timeB) {
+          return orderDateSortOrder === 'newest' ? timeB - timeA : timeA - timeB;
+        }
+        return orderDateSortOrder === 'newest'
+          ? String(b.id).localeCompare(String(a.id))
+          : String(a.id).localeCompare(String(b.id));
+      });
+
+      dashOrdersTableBody.innerHTML = sortedList.map(o => {
+        const isPickup = isPickupOrder(o);
+        const st = getStatusBadgeStyle(o.status);
+        return `
+          <tr>
+            <td>
+              <div style="display:flex; flex-direction:column; gap:3px;">
+                <strong style="color:var(--primary); font-size:0.85rem;">#${o.id}</strong>
+                <span class="order-type-chip ${isPickup ? 'pickup' : 'delivery'}">
+                  ${isPickup ? '🏪 Store Pickup' : '🛵 Delivery'}
+                </span>
+                <span style="font-size:0.68rem; color:var(--text-muted); font-weight:600;">
+                  ${isPickup ? 'Pay at Counter' : 'COD / UPI'}
+                </span>
+              </div>
+            </td>
+            <td>
+              <div style="white-space:nowrap;">
+                <div style="font-weight:600; font-size:0.82rem; color:var(--text-main);">📅 ${formatDisplayDate(o.date)}</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">${o.time || '12:00 PM'}</div>
+              </div>
+            </td>
+            <td>
+              <div style="white-space:nowrap;">
+                <div style="font-weight:700; font-size:0.82rem; color:${o.status === 'Delivered' || o.status === 'Picked Up' ? '#047857' : (o.status === 'Ready for Pickup' ? '#0369a1' : 'var(--text-main)')};">
+                  ${getDeliveryDateDisplay(o)}
+                </div>
+                <div style="font-size:0.7rem; color:var(--text-muted);">${getDeliverySubtext(o)}</div>
+              </div>
+            </td>
+            <td>
+              <div>
+                <strong style="font-size:0.82rem; color:var(--text-main);">${o.customer || 'Customer'}</strong>
+                ${o.phone ? `<div style="font-size:0.7rem; color:var(--text-muted);">${o.phone}</div>` : ''}
+              </div>
+            </td>
+            <td style="max-width:180px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${o.items || ''}">
+              <span style="font-size:0.8rem; color:var(--text-main);">${o.items || 'Grocery Items'}</span>
+            </td>
+            <td>
+              <strong style="font-size:0.88rem; color:var(--text-main);">₹${o.total}</strong>
+            </td>
+            <td>
+              <div style="display:flex; flex-direction:column; gap:0.25rem;">
+                <span class="order-status-badge" style="background:${st.bg}; color:${st.color}; border:1px solid ${st.border};">
+                  <span>${st.icon}</span> <span>${o.status}</span>
+                </span>
+                <select class="form-control" style="padding:2px 6px; font-size:0.7rem; font-weight:600; width:auto; border-radius:4px; cursor:pointer;" onchange="updateOrderStatus('${o.id}', this.value)" title="Change order status">
+                  <option value="Confirmed" ${o.status === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                  <option value="Packing" ${o.status === 'Packing' ? 'selected' : ''}>Packing</option>
+                  ${isPickup ? `
+                    <option value="Ready for Pickup" ${o.status === 'Ready for Pickup' ? 'selected' : ''}>Ready for Pickup</option>
+                    <option value="Picked Up" ${o.status === 'Picked Up' ? 'selected' : ''}>Picked Up</option>
+                  ` : `
+                    <option value="Out for Delivery" ${o.status === 'Out for Delivery' ? 'selected' : ''}>Out for Delivery</option>
+                    <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                  `}
+                </select>
+              </div>
+            </td>
+            <td>
+              <div style="display:flex; align-items:center; gap:0.35rem; white-space:nowrap;">
+                <button type="button" class="btn btn-sm" style="background:var(--primary-light); color:var(--primary); border:1px solid var(--primary); padding:3px 8px; font-size:0.75rem; font-weight:700; border-radius:6px; cursor:pointer;" onclick="generateBill('${o.id}')" title="Generate Retail Bill & Invoice">
+                  🧾 Bill
+                </button>
+                <button type="button" class="btn btn-sm" style="background:var(--bg-surface); color:var(--text-main); border:1px solid var(--border); padding:3px 8px; font-size:0.75rem; font-weight:600; border-radius:6px; cursor:pointer;" onclick="quickTrackFromOrders('${o.id}')" title="Track Live Status">
+                  🔍 Track
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    window.openMyOrdersDashboard = function(sort = null) {
+      if (sort) {
+        orderDateSortOrder = sort;
+        const newestBtn = document.getElementById('orderSortNewestBtn');
+        const oldestBtn = document.getElementById('orderSortOldestBtn');
+        if (newestBtn) newestBtn.classList.toggle('active', sort === 'newest');
+        if (oldestBtn) oldestBtn.classList.toggle('active', sort === 'oldest');
+      }
+      updateDashboardMetrics();
+      dashboardOverlay.classList.add('active');
+      const ordersTabBtn = document.querySelector('[data-tab="tab-orders"]');
+      if (ordersTabBtn) ordersTabBtn.click();
+    };
+
+    window.quickTrackFromOrders = function(orderId) {
+      dashboardOverlay.classList.remove('active');
+      const trackSection = document.getElementById('track-order-section');
+      if (trackSection) {
+        trackSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      if (trackOrderIdInput) {
+        trackOrderIdInput.value = orderId;
+      }
+      trackOrder(orderId);
+    };
 
     window.deleteProduct = function(productId) {
       if (confirm('Are you sure you want to remove this product from the catalogue?')) {
@@ -3662,20 +5629,34 @@
      */
     let currentTrackedOrderId = 'SJM-9203'; // Default to active packing demo order
 
-    const ORDER_STEPS = [
+    const DELIVERY_STEPS = [
       { key: 'Confirmed', label: 'Order Confirmed', icon: '📝', desc: 'Order received & verified' },
       { key: 'Packing', label: 'Packing Groceries', icon: '🛍️', desc: 'Items picked & quality checked' },
       { key: 'Out for Delivery', label: 'Out for Delivery', icon: '🛵', desc: 'Rider dispatched with insulated bags' },
       { key: 'Delivered', label: 'Delivered', icon: '🏡', desc: 'Safely handed over at doorstep' }
     ];
 
-    function getStepIndex(status) {
+    const PICKUP_STEPS = [
+      { key: 'Confirmed', label: 'Order Placed', icon: '📝', desc: 'Received at store counter' },
+      { key: 'Packing', label: 'Packing at Counter', icon: '🛍️', desc: 'Items picked & bagged' },
+      { key: 'Ready for Pickup', label: 'Ready for Pickup', icon: '🏪', desc: 'Waiting at express pickup counter' },
+      { key: 'Picked Up', label: 'Picked Up', icon: '🤝', desc: 'Collected at store counter' }
+    ];
+
+    function getStepIndex(status, isPickup = false) {
       if (!status) return 0;
       const s = status.toLowerCase();
-      if (s.includes('delivered')) return 3;
-      if (s.includes('out') || s.includes('dispatch')) return 2;
-      if (s.includes('pack')) return 1;
-      return 0; // Confirmed or Pending default
+      if (isPickup) {
+        if (s.includes('delivered') || s.includes('picked')) return 3;
+        if (s.includes('ready') || s.includes('out') || s.includes('counter')) return 2;
+        if (s.includes('pack')) return 1;
+        return 0;
+      } else {
+        if (s.includes('delivered') || s.includes('picked')) return 3;
+        if (s.includes('out') || s.includes('dispatch') || s.includes('ready')) return 2;
+        if (s.includes('pack')) return 1;
+        return 0;
+      }
     }
 
     function renderQuickOrderPills() {
@@ -3684,11 +5665,13 @@
         let statusEmoji = '📝';
         if (o.status === 'Packing') statusEmoji = '🛍️';
         if (o.status === 'Out for Delivery') statusEmoji = '🛵';
-        if (o.status === 'Delivered') statusEmoji = '✅';
+        if (o.status === 'Ready for Pickup') statusEmoji = '🏪';
+        if (o.status === 'Delivered' || o.status === 'Picked Up') statusEmoji = '✅';
 
+        const isPickup = isPickupOrder(o);
         return `
           <button type="button" class="tracking-chip" onclick="trackOrder('${o.id}')">
-            <span>#${o.id}</span>
+            <span>#${o.id} ${isPickup ? '🏪' : '🛵'}</span>
             <span class="chip-status" style="background:var(--bg-surface); color:var(--primary);">${statusEmoji} ${o.status}</span>
           </button>
         `;
@@ -3721,29 +5704,33 @@
 
     function renderTrackingResult(order) {
       if (!trackingResultBox) return;
-      const stepIdx = getStepIndex(order.status);
-      const progressFraction = stepIdx / (ORDER_STEPS.length - 1);
+      const isPickup = isPickupOrder(order);
+      const steps = isPickup ? PICKUP_STEPS : DELIVERY_STEPS;
+      const stepIdx = getStepIndex(order.status, isPickup);
+      const progressFraction = stepIdx / (steps.length - 1);
       const progressPercent = Math.round(progressFraction * 100);
 
       let badgeClass = 'status-badge-confirmed';
       let badgeIcon = '📝';
-      let etaText = 'Estimated arrival in 20 - 30 minutes';
+      let etaText = isPickup
+        ? 'Pre-packing in progress (~15-20 mins)'
+        : 'Estimated arrival in 20 - 30 minutes';
 
       if (stepIdx === 1) {
         badgeClass = 'status-badge-packing';
         badgeIcon = '🛍️';
-        etaText = 'Store team is packing fresh produce (~20 mins)';
+        etaText = isPickup ? 'Store staff is assembling your fresh order (~10 mins)' : 'Store team is packing fresh produce (~20 mins)';
       } else if (stepIdx === 2) {
         badgeClass = 'status-badge-outfordelivery';
-        badgeIcon = '🛵';
-        etaText = 'Delivery partner on the way (~8-12 mins)';
+        badgeIcon = isPickup ? '🏪' : '🛵';
+        etaText = isPickup ? 'Your grocery bag is pre-packed & ready for counter pickup!' : 'Delivery partner on the way (~8-12 mins)';
       } else if (stepIdx === 3) {
         badgeClass = 'status-badge-delivered';
-        badgeIcon = '✅';
-        etaText = 'Delivered to doorstep. Enjoy fresh groceries!';
+        badgeIcon = isPickup ? '🤝' : '✅';
+        etaText = isPickup ? 'Collected from store counter. Thank you for shopping with us!' : 'Delivered to doorstep. Enjoy fresh groceries!';
       }
 
-      const stepsHTML = ORDER_STEPS.map((step, idx) => {
+      const stepsHTML = steps.map((step, idx) => {
         let stateClass = '';
         if (idx < stepIdx) stateClass = 'completed';
         else if (idx === stepIdx) stateClass = 'active';
@@ -3764,6 +5751,9 @@
           <div class="tracking-order-meta">
             <h4>
               <span>📦 Order #${order.id}</span>
+              <span class="order-type-chip ${isPickup ? 'pickup' : 'delivery'}" style="margin-left:0.5rem; font-size:0.75rem; vertical-align:middle;">
+                ${isPickup ? '🏪 In-Store Pickup' : '🛵 Doorstep Delivery'}
+              </span>
             </h4>
             <p>Placed on: <strong>${order.date || 'Today'}</strong> • Customer: <strong>${order.customer}</strong></p>
           </div>
@@ -3793,10 +5783,10 @@
         <!-- Order details summary -->
         <div class="tracking-details-card">
           <div class="tracking-info-col">
-            <h5>📍 Delivery Address</h5>
+            <h5>${isPickup ? '🏪 Pickup Counter Point' : '📍 Delivery Address'}</h5>
             <p>
               <strong>${order.customer}</strong><br>
-              ${order.address || 'Address provided during order placement'}<br>
+              ${isPickup ? `<strong>${SHOP_NAME} Express Counter</strong><br>${SHOP_ADDRESS}${order.pickupTimeSlot ? '<br><span style="color:#0369a1; font-weight:700;">Slot: ' + order.pickupTimeSlot + '</span>' : ''}` : (order.address || 'Address provided during order placement')}<br>
               <span style="font-size:0.82rem; color:var(--text-muted);">📱 ${order.phone || '+91 8960025119'}</span>
             </p>
           </div>
@@ -3808,7 +5798,7 @@
             <h5>💵 Payment Details</h5>
             <p>
               <strong style="font-size:1.2rem; color:var(--primary);">₹${order.total}</strong><br>
-              <span style="font-size:0.8rem; color:var(--text-muted);">Mode: Cash on Delivery / UPI QR</span>
+              <span style="font-size:0.8rem; color:var(--text-muted);">${isPickup ? 'Pay at Counter: Cash / UPI QR' : 'Mode: Cash on Delivery / UPI QR'}</span>
             </p>
           </div>
         </div>
@@ -3817,13 +5807,18 @@
         <div class="status-sim-box">
           <div class="sim-label">
             <span>⚙️ Status Simulation:</span>
-            <span style="font-weight:normal; font-size:0.75rem;">(Change status to test all tracking stages live)</span>
+            <span style="font-weight:normal; font-size:0.75rem;">(${isPickup ? 'Test in-store pickup stages' : 'Test delivery stages live'})</span>
           </div>
           <div class="status-sim-btns">
             <button type="button" class="sim-btn ${order.status === 'Confirmed' ? 'active' : ''}" onclick="updateOrderStatus('${order.id}', 'Confirmed')">📝 Confirmed</button>
             <button type="button" class="sim-btn ${order.status === 'Packing' ? 'active' : ''}" onclick="updateOrderStatus('${order.id}', 'Packing')">🛍️ Packing</button>
-            <button type="button" class="sim-btn ${order.status === 'Out for Delivery' ? 'active' : ''}" onclick="updateOrderStatus('${order.id}', 'Out for Delivery')">🛵 Out for Delivery</button>
-            <button type="button" class="sim-btn ${order.status === 'Delivered' ? 'active' : ''}" onclick="updateOrderStatus('${order.id}', 'Delivered')">🏡 Delivered</button>
+            ${isPickup ? `
+              <button type="button" class="sim-btn ${order.status === 'Ready for Pickup' ? 'active' : ''}" onclick="updateOrderStatus('${order.id}', 'Ready for Pickup')">🏪 Ready for Pickup</button>
+              <button type="button" class="sim-btn ${order.status === 'Picked Up' ? 'active' : ''}" onclick="updateOrderStatus('${order.id}', 'Picked Up')">🤝 Picked Up</button>
+            ` : `
+              <button type="button" class="sim-btn ${order.status === 'Out for Delivery' ? 'active' : ''}" onclick="updateOrderStatus('${order.id}', 'Out for Delivery')">🛵 Out for Delivery</button>
+              <button type="button" class="sim-btn ${order.status === 'Delivered' ? 'active' : ''}" onclick="updateOrderStatus('${order.id}', 'Delivered')">🏡 Delivered</button>
+            `}
           </div>
         </div>
 
@@ -3836,7 +5831,7 @@
               <div style="font-size:0.78rem; color:var(--text-muted);">Chat directly with ${SHOP_NAME} team (8960025119) for instant support.</div>
             </div>
           </div>
-          <a href="https://wa.me/${SHOP_WHATSAPP}?text=${encodeURIComponent('Hi Tripathi Store, I would like an update on my order #' + order.id + '. Helpline: 8960025119.')}" target="_blank" rel="noopener noreferrer" class="btn" style="background:#25d366; color:#fff; font-size:0.82rem; padding:0.45rem 0.95rem; text-decoration:none;">
+          <a href="https://wa.me/${SHOP_WHATSAPP}?text=${encodeURIComponent('Hi Tripathi Store, I would like an update on my ' + (isPickup ? 'Store Pickup' : 'Delivery') + ' order #' + order.id + '. Helpline: 8960025119.')}" target="_blank" rel="noopener noreferrer" class="btn" style="background:#25d366; color:#fff; font-size:0.82rem; padding:0.45rem 0.95rem; text-decoration:none;">
             Chat on WhatsApp
           </a>
         </div>
@@ -3955,9 +5950,10 @@
         });
       }
 
+      const isPickup = isPickupOrder(order);
       const subtotal = order.subtotal !== undefined ? order.subtotal : order.total;
       const discount = order.discount || 0;
-      const delivery = order.delivery !== undefined ? order.delivery : (subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : STANDARD_DELIVERY_FEE);
+      const delivery = isPickup ? 0 : (order.delivery !== undefined ? order.delivery : (subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : STANDARD_DELIVERY_FEE));
       const grandTotal = order.total;
       const invoiceNo = `TS-INV-${order.id.replace('#', '')}`;
       const billDate = order.date || new Date().toISOString().split('T')[0];
@@ -3996,10 +5992,11 @@
             </div>
           </div>
           <div class="bill-type-badge">
-            <div class="bill-type-pill">Retail Tax Invoice / Cash Memo</div>
+            <div class="bill-type-pill">${isPickup ? 'Store Counter Collection Memo' : 'Retail Tax Invoice / Cash Memo'}</div>
             <div class="bill-meta-dl">
               <div><strong>Invoice No:</strong> <span style="font-family:monospace; color:#15803d; font-weight:700;">${invoiceNo}</span></div>
               <div><strong>Order ID:</strong> #${order.id}</div>
+              <div><strong>Type:</strong> <span style="font-weight:700; color:${isPickup ? '#0369a1' : '#15803d'};">${isPickup ? '🏪 Store Pickup' : '🛵 Home Delivery'}</span></div>
               <div><strong>Date:</strong> ${billDate} &nbsp; <strong>Time:</strong> ${billTime}</div>
               <div><strong>Status:</strong> <span style="color:#15803d; font-weight:700;">${order.status || 'Confirmed'}</span></div>
             </div>
@@ -4014,9 +6011,13 @@
             <div style="color:#475569; margin-top:2px;">📱 Contact: <strong>+91 ${order.phone || '8960025119'}</strong></div>
           </div>
           <div style="text-align:right; max-width:320px;">
-            <h5>Delivery Destination:</h5>
-            <div style="color:#334155; line-height:1.4;">${order.address || 'Direct counter pickup / local doorstep'}</div>
-            <div style="font-size:0.75rem; color:#15803d; font-weight:700; margin-top:2px;">⚡ Express Local Delivery</div>
+            <h5>${isPickup ? 'Fulfillment Method & Collection Counter:' : 'Delivery Destination:'}</h5>
+            <div style="color:#334155; line-height:1.4;">
+              ${isPickup ? `<strong>${SHOP_NAME} Store Counter</strong><br>${SHOP_ADDRESS}${order.pickupTimeSlot ? '<br><span style="color:#0369a1; font-weight:700;">Slot: ' + order.pickupTimeSlot + '</span>' : ''}` : (order.address || 'Direct doorstep delivery')}
+            </div>
+            <div style="font-size:0.75rem; color:${isPickup ? '#0369a1' : '#15803d'}; font-weight:700; margin-top:2px;">
+              ${isPickup ? '🏪 Express Pre-Packed Pickup (Free)' : '⚡ Express Local Delivery'}
+            </div>
           </div>
         </div>
 
@@ -4041,12 +6042,12 @@
           <div class="bill-upi-box">
             <div style="font-weight:800; margin-bottom:0.3rem; display:flex; align-items:center; gap:0.4rem;">
               <span>📱</span>
-              <span>UPI / Instant Payment Info</span>
+              <span>UPI / Payment Info</span>
             </div>
             <div>Store UPI ID: <strong>8960025119@upi</strong></div>
             <div>Payee: <strong>TRIPATHI STORE</strong></div>
             <div style="font-size:0.75rem; color:#475569; margin-top:0.3rem;">
-              Scan UPI QR code upon doorstep delivery or pay cash directly to the delivery personnel.
+              ${isPickup ? 'Show this invoice at Tripathi Store counter to pay via UPI or Cash and collect your packed bag.' : 'Scan UPI QR code upon doorstep delivery or pay cash directly to the delivery personnel.'}
             </div>
           </div>
 
@@ -4062,8 +6063,8 @@
               </div>
             ` : ''}
             <div class="bill-totals-row">
-              <span>Delivery Charges:</span>
-              <span>${delivery === 0 ? '<strong style="color:#15803d;">FREE (₹0)</strong>' : '₹' + delivery}</span>
+              <span>Fulfillment / Delivery:</span>
+              <span><strong style="color:#15803d;">${isPickup ? 'FREE (Store Pickup)' : (delivery === 0 ? 'FREE (₹0)' : '₹' + delivery)}</strong></span>
             </div>
             <div class="bill-totals-row grand-total">
               <span>Grand Total:</span>
@@ -4251,6 +6252,7 @@
       // Cart Drawer open/close
       openCartBtn.addEventListener('click', () => cartOverlay.classList.add('active'));
       closeCartBtn.addEventListener('click', () => cartOverlay.classList.remove('active'));
+      cartCountBadge.addEventListener('animationend', () => cartCountBadge.classList.remove('cart-badge-bounce'));
       cartOverlay.addEventListener('click', (e) => {
         if (e.target === cartOverlay) cartOverlay.classList.remove('active');
       });
@@ -4276,6 +6278,21 @@
         if (e.target === orderSuccessOverlay) orderSuccessOverlay.classList.remove('active');
       });
 
+      // User Profile & Auth Modals overlay click
+      const userProfileOverlay = document.getElementById('userProfileOverlay');
+      if (userProfileOverlay) {
+        userProfileOverlay.addEventListener('click', (e) => {
+          if (e.target === userProfileOverlay) userProfileOverlay.classList.remove('active');
+        });
+      }
+
+      const userAuthOverlay = document.getElementById('userAuthOverlay');
+      if (userAuthOverlay) {
+        userAuthOverlay.addEventListener('click', (e) => {
+          if (e.target === userAuthOverlay) userAuthOverlay.classList.remove('active');
+        });
+      }
+
       // Keyboard Esc key closes any open modal
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -4283,6 +6300,8 @@
           checkoutOverlay.classList.remove('active');
           dashboardOverlay.classList.remove('active');
           orderSuccessOverlay.classList.remove('active');
+          if (userProfileOverlay) userProfileOverlay.classList.remove('active');
+          if (userAuthOverlay) userAuthOverlay.classList.remove('active');
         }
       });
     }
